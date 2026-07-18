@@ -12,9 +12,9 @@ Go to the **Releases** section of this repository and download the ZIP file for 
 
 Available downloads:
 
-* **Windows** → `gaba-windows.zip`
-* **Linux** → `gaba-linux.zip`
-* **macOS** → `gaba-macos.zip`
+* **Windows** → `gaba-vx.x.x-windows.zip`
+* **Linux** → `gaba-vx.x.x-linux.tar.gz`
+* **macOS** → `gaba-vx.x.x-macos.tar.gz`
 
 Choose the package that matches your operating system.
 
