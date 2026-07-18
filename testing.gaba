@@ -1,0 +1,67 @@
+/* import "./main"
+
+
+say(main.add(5,5))
+
+let impu = ask("ENTER : ")
+let intinpu = int(impu)
+say(intinpu)
+
+if intinpu == 12 {
+    say("yayyyy")
+}
+
+let age = int(ask("Age: "))
+say(age + 5)
+
+say(bool("true"))
+say(str(123))
+say(float("3.14"))
+say(int("25") + 5) */
+
+
+let numbers = [1, 2, 3]
+
+numbers~push(4)
+say(numbers)
+
+numbers~pop()
+say(numbers)
+
+say(numbers~len())
+
+say(numbers~contains(2)) 
+
+
+let producttttt = {
+    "name": "Laptop",
+    "price": 50000
+}
+
+say(producttttt)
+
+
+let product = {
+    "name": "Laptop",
+    "price": 50000,
+    "stock": 10
+}
+
+say(product["name"])
+say(product["price"])
+say(product["stock"])
+
+
+
+
+say(product)
+
+product["stock"] = 8
+product["price"] = 45000
+
+say(product)
+say(product["stock"])
+say(product["price"]) 
+
+product["stock"] = product["stock"] - 1
+say(product["stock"])

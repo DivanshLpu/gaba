@@ -1,0 +1,53 @@
+let i = 1
+
+while true {
+
+    say(i)
+
+    if i == 5 {
+        stop
+    }
+
+    i = i + 1
+}
+
+say("Finished")
+
+
+let x = 100
+
+if x == 1 {
+    say("One")
+} else if x == 2 {
+    say("Two")
+} else if x == 5 {
+    say("Five")
+} else {
+    say("Other")
+}
+
+
+for let ii = 1, ii <= 5, ii = ii + 1 {
+
+    if ii == 3 {
+        skip
+    }
+
+    say(ii)
+}
+
+
+while true {
+
+    let option = int(ask("Option: "))
+
+    if option == 0 {
+        stop
+    }
+
+    if option < 0 {
+        skip
+    }
+
+    say(option)
+}

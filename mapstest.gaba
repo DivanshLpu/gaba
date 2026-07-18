@@ -1,0 +1,21 @@
+let product = {
+    "name": "Laptop",
+    "price": 50000,
+    "stock": 10
+}
+
+say(product~len())
+say(product~keys())
+say(product~values())
+
+say(product~containsKey("price"))
+say(product~containsValue(10))
+
+product~remove("price")
+
+say(product)
+
+product~clear()
+
+say(product)
+say(product~isEmpty())

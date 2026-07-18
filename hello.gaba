@@ -1,0 +1,249 @@
+
+
+let a = 10
+let b = 5
+
+say(a)
+say(b)
+
+
+
+say(a + b)
+say(a - b)
+say(a * b)
+say(a / b)
+
+
+
+say((2 + 3) * 4)
+say(2 + 3 * 4)
+
+
+
+let language = "Gaba"
+
+say(language)
+
+
+
+let name = ask("Enter your name: ")
+
+say(name)
+
+
+
+let admin = true
+let guest = false
+
+say(admin)
+say(guest)
+
+
+
+say(5 == 5)
+say(5 != 5)
+
+say(10 > 2)
+say(2 > 10)
+
+say(10 >= 10)
+say(4 <= 8)
+
+
+
+let x = 100
+let y = 20
+
+let total = x + y
+
+say(total)
+
+
+
+say((x + y) / 2)
+
+say((5 + 5) * (2 + 3))
+
+let agdde = 10
+
+if agdde >= 18 {
+
+    say("Adult")
+
+}
+
+say("Finished")
+
+
+set elage = 15
+
+if elage >= 18 {
+    say("Adult")
+}
+else {
+    say("Minor")
+}
+
+
+
+let devname = "Gaba"
+
+devname = "Language"
+
+say(devname)
+
+
+
+
+set devx = 10
+
+while devx > 0 {
+
+    say(devx)
+
+    devx = devx - 2
+
+}
+
+let dadaname = "Global"
+
+fun hello(dadaname){
+
+    say(dadaname)
+
+}
+
+hello("Local")
+
+say(dadaname)
+
+
+
+
+fun multiply(a, b) {
+    give a * b
+}
+
+fun area(width, height) {
+    give multiply(width, height)
+}
+
+say(area(5, 8))
+say(multiply(5, 8))
+
+
+// This is a comment
+
+say("Hello")
+
+say("One")
+
+/*
+comment
+*/
+
+say("Two")
+
+say(10 / 2)
+
+say("One")
+
+// comment
+
+say("Two")
+
+
+/*
+This
+is
+a
+comment
+*/
+
+say("Hello")
+
+say("Hello") // greeting
+
+
+
+say([1, 2 + 3, "hello", true])
+
+let dadanums = [10,20,30]
+
+say(dadanums[0])
+say(dadanums[1])
+say(dadanums[2])
+
+
+
+let frnums = [10,20,30]
+
+say(frnums.len())
+
+
+let lrnums = [10,20]
+
+lrnums.push(30)
+
+say(lrnums)
+
+
+let daenums = [10,20,30]
+
+say(daenums.pop())
+
+say(daenums)
+
+
+
+let gknums = [10,20,30]
+
+gknums.insert(1,15)
+
+say(gknums)
+
+
+let ynums = [10,20,30,40]
+
+ynums.removeAt(1)
+
+say(ynums)
+
+
+let tnums = [10,20,30]
+
+say(tnums.contains(20))
+say(tnums.contains(50))
+
+
+
+let eefhnums = [10,20,30]
+
+eefhnums.clear()
+
+say(eefhnums)
+
+
+let krghnums = []
+
+say(krghnums.isEmpty())
+
+krghnums.push(1)
+
+say(krghnums.isEmpty())
+
+
+
+
+for let iii = 0, iii < 5, iii = iii + 1 {
+    say(iii)
+}
+
+
+
+say(bool("true"))
+say(str(123))
+say(float("3.14"))
+say(int("25") + 5)
+
+say("Regression test complete.")
