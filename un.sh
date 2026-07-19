@@ -4,13 +4,20 @@ set -e
 
 echo "Uninstalling Gaba..."
 
-BIN="$HOME/.local/bin/gaba"
+INSTALL_DIR="$HOME/.local/bin"
+BIN="$INSTALL_DIR/gaba"
 
-if [ ! -f "$BIN" ]; then
-    echo "Gaba is not installed."
+if [ ! -e "$BIN" ]; then
+    echo "❌ Gaba is not installed."
     exit 0
 fi
 
 rm -f "$BIN"
 
-echo "✅ Gaba uninstalled successfully!"
+# Refresh shell command cache if supported
+hash -r 2>/dev/null || true
+
+echo ""
+echo "✅ Gaba has been uninstalled successfully!"
+echo ""
+echo "Removed: $BIN"
