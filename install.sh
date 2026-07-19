@@ -24,8 +24,9 @@ esac
 
 echo "Getting latest release..."
 
-VERSION=$(curl -s https://api.github.com/repos/$OWNER/$REPO/releases/latest \
+VERSION=$(curl -s https://api.github.com/repos/$OWNER/$REPO/releases \
 | grep '"tag_name"' \
+| head -n 1 \
 | cut -d '"' -f4)
 
 DOWNLOAD_URL="https://github.com/$OWNER/$REPO/releases/download/$VERSION/gaba-${VERSION}-${FILE}"
