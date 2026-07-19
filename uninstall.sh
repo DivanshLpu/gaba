@@ -4,29 +4,20 @@ set -e
 
 echo "Uninstalling Gaba..."
 
-REMOVED=0
+INSTALL_DIR="$HOME/.local/bin"
+BIN="$INSTALL_DIR/gaba"
 
-# User installation
-if [ -f "$HOME/.local/bin/gaba" ]; then
-    rm -f "$HOME/.local/bin/gaba"
-    echo "Removed $HOME/.local/bin/gaba"
-    REMOVED=1
+if [ ! -e "$BIN" ]; then
+    echo "❌ Gaba is not installed."
+    exit 0
 fi
 
-# System installation
-if [ -f "/usr/local/bin/gaba" ]; then
-    if [ -w "/usr/local/bin/gaba" ]; then
-        rm -f "/usr/local/bin/gaba"
-    else
-        sudo rm -f "/usr/local/bin/gaba"
-    fi
-    echo "Removed /usr/local/bin/gaba"
-    REMOVED=1
-fi
+rm -f "$BIN"
 
-if [ "$REMOVED" -eq 0 ]; then
-    echo "Gaba is not installed."
-else
-    echo ""
-    echo "✅ Gaba uninstalled successfully!"
-fi
+# Refresh shell command cache if supported
+hash -r 2>/dev/null || true
+
+echo ""
+echo "✅ Gaba has been uninstalled successfully!"
+echo ""
+echo "Removed: $BIN"
