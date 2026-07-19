@@ -4,20 +4,45 @@ set -e
 
 echo "Uninstalling Gaba..."
 
-INSTALL_DIR="$HOME/.local/bin"
-BIN="$INSTALL_DIR/gaba"
+REMOVED=0
 
-if [ ! -e "$BIN" ]; then
-    echo "❌ Gaba is not installed."
-    exit 0
+remove_file() {
+    FILE="$1"
+
+    if [ -f "$FILE" ]; then
+        echo "Found: $FILE"
+
+        if rm -f "$FILE" 2>/dev/null; then
+            echo "Removed: $FILE"
+        else
+            echo "Removing with sudo..."
+            sudo rm -f "$FILE"
+            echo "Removed: $FILE"
+        fi
+
+        REMOVED=1
+    fi
+}
+
+# Remove every executable found in PATH
+if command -v which >/dev/null 2>&1; then
+    while IFS= read -r FILE; do
+        [ -n "$FILE" ] && remove_file "$FILE"
+    done < <(which -a gaba 2>/dev/null | sort -u)
 fi
 
-rm -f "$BIN"
+# Fallback locations
+remove_file "$HOME/.local/bin/gaba"
+remove_file "/usr/local/bin/gaba"
+remove_file "/usr/bin/gaba"
 
-# Refresh shell command cache if supported
+# Refresh shell cache
 hash -r 2>/dev/null || true
 
-echo ""
-echo "✅ Gaba has been uninstalled successfully!"
-echo ""
-echo "Removed: $BIN"
+if [ "$REMOVED" -eq 1 ]; then
+    echo ""
+    echo "✅ Gaba uninstalled successfully!"
+else
+    echo ""
+    echo "Gaba is not installed."
+fi
