@@ -24,18 +24,30 @@ esac
 
 echo "Getting latest release..."
 
-VERSION=$(curl -s https://api.github.com/repos/$OWNER/$REPO/releases \
-| grep '"tag_name"' \
-| head -n 1 \
-| cut -d '"' -f4)
+RELEASE_JSON=$(curl -fsSL "https://api.github.com/repos/$OWNER/$REPO/releases")
 
-DOWNLOAD_URL="https://github.com/$OWNER/$REPO/releases/download/$VERSION/gaba-v${VERSION}-${FILE}"
+VERSION=$(echo "$RELEASE_JSON" \
+    | grep '"tag_name"' \
+    | head -n1 \
+    | cut -d '"' -f4)
 
-TMP_DIR=$(mktemp -d)
+DOWNLOAD_URL=$(echo "$RELEASE_JSON" \
+    | grep '"browser_download_url"' \
+    | grep "$FILE" \
+    | head -n1 \
+    | cut -d '"' -f4)
+
+if [ -z "$DOWNLOAD_URL" ]; then
+    echo "❌ Could not find a release asset for $FILE"
+    exit 1
+fi
 
 echo "Downloading $DOWNLOAD_URL"
 
-curl -L "$DOWNLOAD_URL" -o "$TMP_DIR/gaba.tar.gz"
+TMP_DIR=$(mktemp -d)
+
+curl -fL "$DOWNLOAD_URL" -o "$TMP_DIR/gaba.tar.gz"
+
 
 echo "Extracting..."
 
