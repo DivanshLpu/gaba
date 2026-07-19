@@ -4,12 +4,14 @@ set -e
 
 echo "Uninstalling Gaba..."
 
-BIN="/usr/local/bin/gaba"
+BIN=$(command -v gaba 2>/dev/null)
 
-if [ ! -f "$BIN" ]; then
+if [ -z "$BIN" ]; then
     echo "Gaba is not installed."
     exit 0
 fi
+
+echo "Found: $BIN"
 
 if rm -f "$BIN" 2>/dev/null; then
     echo "✅ Gaba uninstalled successfully!"
