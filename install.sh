@@ -7,9 +7,7 @@ REPO="gaba"
 
 echo "Installing Gaba..."
 
-OS=$(uname -s)
-
-case "$OS" in
+case "$(uname -s)" in
     Linux)
         FILE="linux.tar.gz"
         ;;
@@ -24,55 +22,53 @@ esac
 
 echo "Getting latest release..."
 
-RELEASE_JSON=$(curl -fsSL "https://api.github.com/repos/$OWNER/$REPO/releases")
-
-VERSION=$(echo "$RELEASE_JSON" \
-    | grep '"tag_name"' \
-    | head -n1 \
-    | cut -d '"' -f4)
-
-DOWNLOAD_URL=$(echo "$RELEASE_JSON" \
-    | grep '"browser_download_url"' \
+DOWNLOAD_URL=$(curl -fsSL "https://api.github.com/repos/$OWNER/$REPO/releases" \
+    | grep browser_download_url \
     | grep "$FILE" \
     | head -n1 \
     | cut -d '"' -f4)
 
 if [ -z "$DOWNLOAD_URL" ]; then
-    echo "❌ Could not find a release asset for $FILE"
+    echo "No compatible release found."
     exit 1
 fi
 
-echo "Downloading $DOWNLOAD_URL"
-
 TMP_DIR=$(mktemp -d)
 
+echo "Downloading..."
 curl -fL "$DOWNLOAD_URL" -o "$TMP_DIR/gaba.tar.gz"
 
-
 echo "Extracting..."
-
 tar -xzf "$TMP_DIR/gaba.tar.gz" -C "$TMP_DIR"
 
-BIN=$(find "$TMP_DIR" -type f -name "gaba" | head -n 1)
+BIN=$(find "$TMP_DIR" -type f -name "gaba" | head -n1)
 
 if [ -z "$BIN" ]; then
     echo "Executable not found."
+    rm -rf "$TMP_DIR"
     exit 1
 fi
 
 chmod +x "$BIN"
 
-if [ -w /usr/local/bin ]; then
-    mv "$BIN" /usr/local/bin/gaba
-else
-    sudo mv "$BIN" /usr/local/bin/gaba
-fi
+INSTALL_DIR="$HOME/.local/bin"
+
+mkdir -p "$INSTALL_DIR"
+
+mv "$BIN" "$INSTALL_DIR/gaba"
 
 rm -rf "$TMP_DIR"
 
 echo ""
 echo "✅ Gaba installed successfully!"
 echo ""
+
+if ! echo "$PATH" | grep -q "$HOME/.local/bin"; then
+    echo "Add this to your shell profile:"
+    echo ""
+    echo 'export PATH="$HOME/.local/bin:$PATH"'
+    echo ""
+fi
+
 echo "Run:"
-echo ""
 echo "gaba"
