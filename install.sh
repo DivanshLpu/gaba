@@ -29,7 +29,7 @@ VERSION=$(curl -s https://api.github.com/repos/$OWNER/$REPO/releases \
 | head -n 1 \
 | cut -d '"' -f4)
 
-DOWNLOAD_URL="https://github.com/$OWNER/$REPO/releases/download/$VERSION/gaba-${VERSION}-${FILE}"
+DOWNLOAD_URL="https://github.com/$OWNER/$REPO/releases/download/$VERSION/gaba-v${VERSION}-${FILE}"
 
 TMP_DIR=$(mktemp -d)
 
