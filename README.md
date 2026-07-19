@@ -1,3 +1,131 @@
+# Gaba Installation Guide
+
+Gaba can be installed on **Linux**, **macOS**, and **Windows** using a single command.
+
+---
+
+# Linux
+
+Install the latest version:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.sh | bash
+```
+
+Uninstall:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.sh | bash
+```
+
+---
+
+# macOS
+
+Install the latest version:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.sh | bash
+```
+
+Uninstall:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.sh | bash
+```
+
+---
+
+# Windows (PowerShell)
+
+Install:
+
+```powershell
+irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.ps1 | iex
+```
+
+Uninstall:
+
+```powershell
+irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.ps1 | iex
+```
+
+---
+
+# Windows (Command Prompt)
+
+Install:
+
+```cmd
+curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.bat -o install.bat && install.bat
+```
+
+Uninstall:
+
+```cmd
+curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.bat -o uninstall.bat && uninstall.bat
+```
+
+---
+
+# Verify Installation
+
+After installation, verify that Gaba is installed correctly:
+
+```bash
+gaba version
+```
+
+or
+
+```bash
+gaba
+```
+
+---
+
+# Installation Locations
+
+Depending on your operating system, Gaba is installed to:
+
+| Operating System | Installation Path |
+|------------------|-------------------|
+| Linux | `~/.local/bin/gaba` |
+| macOS | `~/.local/bin/gaba` |
+| Windows | `%LOCALAPPDATA%\Programs\gaba\gaba.exe` |
+
+---
+
+# Troubleshooting
+
+### Linux/macOS
+
+If the `gaba` command is not found after installation, add the following to your shell profile (`~/.bashrc`, `~/.zshrc`, etc.):
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Then reload your shell:
+
+```bash
+source ~/.bashrc
+```
+
+or
+
+```bash
+source ~/.zshrc
+```
+
+---
+
+### Windows
+
+If `gaba` is not recognized after installation, restart your terminal or open a new Command Prompt/PowerShell window.
+
+---
+
 # Gaba Programming Language
 
 > **A simple interpreted programming language written in Dart.**
