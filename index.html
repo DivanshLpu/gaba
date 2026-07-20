@@ -1381,24 +1381,28 @@ say("========== GABA LANGUAGE TEST ==========")
 let name = "Divansh"
 let age = 20
 say("Hello, " + name)
-say("In 5 years, age will be: " + (age + 5))
+say("In 5 years, age will be: ")
+say(age + 5)
 
 // 2. Lists & Object Methods (~ operator)
 let numbers = [10, 20, 30]
 numbers~push(40)
-say("List length: " + numbers~length())
+say("List length: ")
+say(numbers~length())
 
 // 3. Maps
 let product = {
     "name": "Laptop",
     "price": 50000
 }
-say("Product: " + product["name"])
+say("Product: ")
+say(product["name"])
 
 // 4. Loops & Control
 let counter = 1
 while counter <= 3 {
-    say("While loop count: " + counter)
+    say("While loop count: ")
+    say(counter)
     counter = counter + 1
 }
 
@@ -1407,7 +1411,8 @@ for item in items {
     if item == "Banana" {
         skip
     }
-    say("Item: " + item)
+    say("Item: ")
+    say(item)
 }
 
 // 5. Functions & Native Calls
@@ -1416,10 +1421,12 @@ fun add(a, b) {
 }
 
 let result = add(15, 25)
-say("Function result: " + result)
+say("Function result: ")
+say(result)
 
-let userInput = int(ask("Enter a number: "))
-say("You entered: " + userInput)
+say userInput = int(ask("Enter a number: "))
+say("You entered: ")
+say(userInput)
 
 say("Program Finished")`;
 
