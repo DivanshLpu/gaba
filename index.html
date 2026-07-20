@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indie Game Project | Divansh - RPG Adventure</title>
+    <title>Gaba Programming Language | v1.3.6 by Divansh</title>
     <meta name="description"
-        content="An indie RPG game project built with passion. Explore dungeons, battle enemies, and embark on an epic adventure.">
+        content="Gaba - A simple, interpreted programming language written in Dart. Learn how interpreters, parsers, and lexers work.">
+
+    <!-- FORCE NO CACHING -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -54,18 +59,20 @@
             --accent: #0a0a0a;
             --accent-inverse: #ffffff;
             --shadow-glow: rgba(0, 0, 0, 0.05);
-            --shadow-glow-hover: rgba(0, 0, 0, 0.1);
             --grid-color: rgba(0, 0, 0, 0.04);
             --noise-opacity: 0.015;
-            --marquee-faint: rgba(0, 0, 0, 0.05);
-            --marquee-medium: rgba(0, 0, 0, 0.1);
             --watermark: rgba(0, 0, 0, 0.03);
-            --status-green: #16a34a;
-            --status-green-glow: rgba(22, 163, 74, 0.4);
             --gradient-text: linear-gradient(135deg, #0a0a0a 0%, #525252 50%, #0a0a0a 100%);
             --scrollbar-thumb: #d4d4d4;
-            --scrollbar-thumb-hover: #a3a3a3;
             --scrollbar-track: #ffffff;
+            --code-bg: #fafafa;
+            --code-keyword: #0a0a0a;
+            --code-string: #525252;
+            --code-number: #737373;
+            --code-function: #262626;
+            --code-comment: #a3a3a3;
+            --code-boolean: #525252;
+            --code-operator: #a3a3a3;
         }
 
         [data-theme="dark"] {
@@ -83,18 +90,20 @@
             --accent: #ffffff;
             --accent-inverse: #0a0a0a;
             --shadow-glow: rgba(255, 255, 255, 0.05);
-            --shadow-glow-hover: rgba(255, 255, 255, 0.1);
             --grid-color: rgba(255, 255, 255, 0.03);
             --noise-opacity: 0.02;
-            --marquee-faint: rgba(255, 255, 255, 0.05);
-            --marquee-medium: rgba(255, 255, 255, 0.1);
             --watermark: rgba(255, 255, 255, 0.03);
-            --status-green: #22c55e;
-            --status-green-glow: rgba(34, 197, 94, 0.4);
             --gradient-text: linear-gradient(135deg, #ffffff 0%, #a3a3a3 50%, #ffffff 100%);
             --scrollbar-thumb: #404040;
-            --scrollbar-thumb-hover: #525252;
             --scrollbar-track: #0a0a0a;
+            --code-bg: #171717;
+            --code-keyword: #ffffff;
+            --code-string: #d4d4d4;
+            --code-number: #a3a3a3;
+            --code-function: #e5e5e5;
+            --code-comment: #525252;
+            --code-boolean: #d4d4d4;
+            --code-operator: #737373;
         }
 
         * {
@@ -124,23 +133,11 @@
             border-radius: 3px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--scrollbar-thumb-hover);
-        }
-
         .gradient-text {
             background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-        }
-
-        .glow {
-            box-shadow: 0 0 40px var(--shadow-glow);
-        }
-
-        .glow-hover:hover {
-            box-shadow: 0 0 60px var(--shadow-glow-hover);
         }
 
         .noise {
@@ -209,7 +206,6 @@
             background: linear-gradient(90deg, transparent, var(--border), transparent);
         }
 
-        /* Mobile Menu */
         .mobile-menu {
             transform: translateX(100%);
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -219,7 +215,6 @@
             transform: translateX(0);
         }
 
-        /* Theme Toggle */
         .theme-toggle {
             position: relative;
         }
@@ -335,37 +330,6 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Video Container */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: var(--bg-elevated);
-        }
-
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Feature Icon Boxes */
-        .feature-box {
-            transition: all 0.3s ease;
-        }
-
-        .feature-box:hover {
-            transform: translateY(-5px);
-            border-color: var(--border-hover);
-        }
-
-        /* Scroll Progress */
         .scroll-progress {
             position: fixed;
             top: 0;
@@ -376,10 +340,194 @@
             transition: width 0.1s;
         }
 
+        /* ===== CODE BLOCK STYLES ===== */
+        .code-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--code-bg);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-elevated);
+        }
+
+        .code-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-faint);
+        }
+
+        .code-filename {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .copy-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        .copy-btn.copied {
+            background: var(--accent);
+            color: var(--accent-inverse);
+            border-color: var(--accent);
+        }
+
+        .code-body {
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            counter-reset: line;
+        }
+
+        .code-body pre {
+            margin: 0;
+            white-space: pre;
+        }
+
+        .code-line {
+            display: block;
+            padding-left: 3.5rem;
+            position: relative;
+            min-height: 1.7em;
+        }
+
+        .code-line::before {
+            counter-increment: line;
+            content: counter(line);
+            position: absolute;
+            left: 0;
+            width: 2.5rem;
+            text-align: right;
+            color: var(--text-faint);
+            font-size: 0.8rem;
+            user-select: none;
+        }
+
+        .token-keyword {
+            color: var(--code-keyword);
+            font-weight: 600;
+        }
+
+        .token-string {
+            color: var(--code-string);
+        }
+
+        .token-number {
+            color: var(--code-number);
+        }
+
+        .token-function {
+            color: var(--code-function);
+            font-weight: 500;
+        }
+
+        .token-boolean {
+            color: var(--code-boolean);
+            font-style: italic;
+        }
+
+        .token-operator {
+            color: var(--code-operator);
+        }
+
+        .token-comment {
+            color: var(--code-comment);
+            font-style: italic;
+        }
+
+        .step-card {
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-hover);
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .path-highlight {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--bg-card-hover);
+            border: 1px solid var(--border);
+            font-size: 0.85em;
+            color: var(--text-primary);
+            word-break: break-all;
+        }
+
+        .feature-box {
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-hover);
+        }
+
         @media (max-width: 768px) {
             .theme-dropdown {
                 right: 0;
                 min-width: 150px;
+            }
+
+            .code-body {
+                font-size: 0.75rem;
+                padding: 16px;
+            }
+
+            .code-line {
+                padding-left: 2.5rem;
+            }
+
+            .code-line::before {
+                width: 2rem;
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -387,14 +535,12 @@
 
 <body class="noise">
 
-    <!-- Scroll Progress Bar -->
     <div class="scroll-progress" id="scrollProgress"></div>
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
-                <!-- Logo -->
                 <a href="/" class="flex items-center gap-2 group">
                     <div class="w-10 h-10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                         style="background: var(--accent);">
@@ -404,53 +550,43 @@
                             style="color: var(--text-muted);">.</span></span>
                 </a>
 
-                <!-- Desktop Nav -->
                 <div class="hidden md:flex items-center gap-1">
                     <a href="/" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
-                        style="color: var(--text-muted);">Back to Portfolio</a>
+                        style="color: var(--text-muted);">Portfolio</a>
                     <a href="#about" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
                         style="color: var(--text-muted);">About</a>
+                    <a href="#install" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
+                        style="color: var(--text-muted);">Install</a>
+                    <a href="#code" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
+                        style="color: var(--text-muted);">Code</a>
                     <a href="#features" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
                         style="color: var(--text-muted);">Features</a>
-                    <a href="#download" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
-                        style="color: var(--text-muted);">Download</a>
 
                     <div class="theme-toggle ml-2">
-                        <button id="themeToggleBtn" class="theme-btn" aria-label="Toggle theme">
-                            <i class="fas fa-sun"></i>
-                        </button>
+                        <button id="themeToggleBtn" class="theme-btn" aria-label="Toggle theme"><i
+                                class="fas fa-sun"></i></button>
                         <div id="themeDropdown" class="theme-dropdown">
-                            <div class="theme-option active" data-theme="light">
-                                <span class="theme-preview light-preview"></span>
-                                <i class="fas fa-sun"></i>
-                                <span>Light</span>
-                            </div>
-                            <div class="theme-option" data-theme="dark">
-                                <span class="theme-preview dark-preview"></span>
-                                <i class="fas fa-moon"></i>
-                                <span>Dark</span>
-                            </div>
+                            <div class="theme-option active" data-theme="light"><span
+                                    class="theme-preview light-preview"></span><i
+                                    class="fas fa-sun"></i><span>Light</span></div>
+                            <div class="theme-option" data-theme="dark"><span
+                                    class="theme-preview dark-preview"></span><i
+                                    class="fas fa-moon"></i><span>Dark</span></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center gap-2">
                     <div class="theme-toggle">
-                        <button id="themeToggleBtnMobile" class="theme-btn" aria-label="Toggle theme">
-                            <i class="fas fa-sun"></i>
-                        </button>
+                        <button id="themeToggleBtnMobile" class="theme-btn" aria-label="Toggle theme"><i
+                                class="fas fa-sun"></i></button>
                         <div id="themeDropdownMobile" class="theme-dropdown">
-                            <div class="theme-option active" data-theme="light">
-                                <span class="theme-preview light-preview"></span>
-                                <i class="fas fa-sun"></i>
-                                <span>Light</span>
-                            </div>
-                            <div class="theme-option" data-theme="dark">
-                                <span class="theme-preview dark-preview"></span>
-                                <i class="fas fa-moon"></i>
-                                <span>Dark</span>
-                            </div>
+                            <div class="theme-option active" data-theme="light"><span
+                                    class="theme-preview light-preview"></span><i
+                                    class="fas fa-sun"></i><span>Light</span></div>
+                            <div class="theme-option" data-theme="dark"><span
+                                    class="theme-preview dark-preview"></span><i
+                                    class="fas fa-moon"></i><span>Dark</span></div>
                         </div>
                     </div>
                     <button id="menuBtn" class="w-10 h-10 flex items-center justify-center rounded-lg"
@@ -467,27 +603,25 @@
         <div class="flex items-center justify-between p-4 sm:p-6">
             <a href="/" class="flex items-center gap-2">
                 <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: var(--accent);">
-                    <span class="font-bold text-lg font-mono" style="color: var(--accent-inverse);">D</span>
-                </div>
+                    <span class="font-bold text-lg font-mono" style="color: var(--accent-inverse);">D</span></div>
                 <span class="font-semibold text-lg" style="color: var(--text-primary);">Divansh</span>
             </a>
             <button id="closeMenu" class="w-10 h-10 flex items-center justify-center rounded-lg"
-                style="background: var(--bg-card); border: 1px solid var(--border);">
-                <i class="fas fa-times text-lg" style="color: var(--text-primary);"></i>
-            </button>
+                style="background: var(--bg-card); border: 1px solid var(--border);"><i class="fas fa-times text-lg"
+                    style="color: var(--text-primary);"></i></button>
         </div>
         <div class="flex-1 flex flex-col items-center justify-center gap-6">
-            <a href="/" class="mobile-link text-2xl font-semibold" style="color: var(--text-primary);">Back to
-                Portfolio</a>
+            <a href="/" class="mobile-link text-2xl font-semibold"
+                style="color: var(--text-primary);">Portfolio</a>
             <a href="#about" class="mobile-link text-2xl font-semibold" style="color: var(--text-primary);">About</a>
-            <a href="#video" class="mobile-link text-2xl font-semibold" style="color: var(--text-primary);">Trailer</a>
+            <a href="#install" class="mobile-link text-2xl font-semibold"
+                style="color: var(--text-primary);">Install</a>
+            <a href="#code" class="mobile-link text-2xl font-semibold" style="color: var(--text-primary);">Code</a>
             <a href="#features" class="mobile-link text-2xl font-semibold"
                 style="color: var(--text-primary);">Features</a>
-            <a href="#download" class="mobile-link text-2xl font-semibold"
-                style="color: var(--text-primary);">Download</a>
         </div>
         <div class="p-6 flex justify-center gap-6">
-            <a href="https://github.com/DivanshLpu/indie-game" target="_blank" style="color: var(--text-muted);"
+            <a href="https://github.com/DivanshLpu/gaba" target="_blank" style="color: var(--text-muted);"
                 class="text-xl"><i class="fab fa-github"></i></a>
             <a href="/" style="color: var(--text-muted);" class="text-xl"><i class="fas fa-home"></i></a>
         </div>
@@ -506,149 +640,293 @@
             <div data-aos="fade-down" class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8"
                 style="border: 1px solid var(--border); background: var(--bg-card);">
                 <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                <span class="text-sm font-mono" style="color: var(--text-muted);">v0.0.4 Latest</span>
+                <span class="text-sm font-mono" style="color: var(--text-muted);">v1.3.6 · Cross-Platform · Built on
+                    Dart</span>
             </div>
 
-            <h1 data-aos="fade-up" class="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight mb-6">
-                <span class="gradient-text">Indie RPG</span><br>
-                <span style="color: var(--text-muted); font-size: 0.5em;">Adventure Game</span>
+            <h1 data-aos="fade-up" class="text-6xl sm:text-7xl md:text-9xl font-black tracking-tight mb-4">
+                <span class="gradient-text">.gaba</span>
             </h1>
-
-            <p data-aos="fade-up" data-aos-delay="200" class="max-w-2xl mx-auto text-lg sm:text-xl mb-10"
+            <p data-aos="fade-up" data-aos-delay="100" class="text-xl sm:text-2xl md:text-3xl font-light mb-8"
                 style="color: var(--text-muted);">
-                A passion project combining classic RPG mechanics with modern gameplay. Explore dungeons, battle fierce
-                enemies, and uncover the mysteries of a forgotten world.
+                A Custom Interpreted Programming Language
+            </p>
+
+            <p data-aos="fade-up" data-aos-delay="200" class="max-w-2xl mx-auto text-base sm:text-lg mb-10"
+                style="color: var(--text-muted);">
+                Simple, readable, and beginner-friendly. A personal learning journey to understand lexers, parsers,
+                ASTs, and runtime execution from the ground up.
             </p>
 
             <div data-aos="fade-up" data-aos-delay="300"
                 class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#video"
+                <a href="#install"
                     class="group w-full sm:w-auto px-8 py-4 font-semibold rounded-xl hover:scale-105 transition-all flex items-center justify-center gap-3"
                     style="background: var(--accent); color: var(--accent-inverse);">
-                    <i class="fas fa-play"></i>
-                    <span>Watch Trailer</span>
+                    <i class="fas fa-download"></i>
+                    <span>Install Gaba</span>
                 </a>
-                <a href="#download"
+                <a href="https://github.com/DivanshLpu/gaba/blob/main/DOC.md" target="_blank"
                     class="w-full sm:w-auto px-8 py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-3"
                     style="border: 1px solid var(--border); color: var(--text-primary);"
                     onmouseover="this.style.background='var(--bg-card-hover)'; this.style.borderColor='var(--border-hover)'"
                     onmouseout="this.style.background='transparent'; this.style.borderColor='var(--border)'">
-                    <i class="fas fa-download"></i>
-                    <span>Download Now</span>
+                    <i class="fas fa-book"></i>
+                    <span>Read Tutorial & Docs</span>
                 </a>
             </div>
 
             <div data-aos="fade-up" data-aos-delay="400" class="mt-16 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
                 <div class="text-center">
-                    <div class="text-3xl font-bold" style="color: var(--text-primary);">RPG</div>
-                    <div class="text-sm mt-1" style="color: var(--text-muted);">Genre</div>
+                    <div class="text-3xl font-bold" style="color: var(--text-primary);">1.3.6</div>
+                    <div class="text-sm mt-1" style="color: var(--text-muted);">Version</div>
                 </div>
                 <div class="text-center"
                     style="border-left: 1px solid var(--border); border-right: 1px solid var(--border);">
-                    <div class="text-3xl font-bold" style="color: var(--text-primary);">Solo</div>
-                    <div class="text-sm mt-1" style="color: var(--text-muted);">Developer</div>
+                    <div class="text-3xl font-bold" style="color: var(--text-primary);">Dart</div>
+                    <div class="text-sm mt-1" style="color: var(--text-muted);">Runtime</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-3xl font-bold" style="color: var(--text-primary);">v0.0.4</div>
-                    <div class="text-sm mt-1" style="color: var(--text-muted);">Version</div>
+                    <div class="text-3xl font-bold" style="color: var(--text-primary);">All OS</div>
+                    <div class="text-sm mt-1" style="color: var(--text-muted);">Supported</div>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Video Section -->
-    <section id="video" class="py-20 sm:py-32 relative">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div data-aos="fade-up" class="text-center mb-12">
-                <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Game
-                    Introduction</span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
-                    Watch The <span style="color: var(--text-muted);">Trailer</span>
-                </h2>
-            </div>
-
-            <div data-aos="fade-up" class="video-container glow">
-                <!-- Replace VIDEO_ID with your actual YouTube video ID -->
-                <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Indie Game Trailer"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-            </div>
-
-            <div data-aos="fade-up" class="mt-8 text-center">
-                <p style="color: var(--text-muted);">Experience the adventure through this gameplay introduction</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-line max-w-7xl mx-auto"></div>
 
     <!-- About Section -->
     <section id="about" class="py-20 sm:py-32 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                 <div data-aos="fade-right">
-                    <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">About The
-                        Game</span>
+                    <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">About
+                        Gaba</span>
                     <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 mb-6">
-                        A Side Project Born From <span style="color: var(--text-muted);">Passion</span>
+                        A Journey Into <span style="color: var(--text-muted);">Language Design</span>
                     </h2>
                     <div class="space-y-4 text-base sm:text-lg" style="color: var(--text-secondary);">
                         <p>
-                            This indie RPG game is a personal hobby project that I've been developing in my free time.
-                            As someone who has always been fascinated by classic role-playing games, I wanted to create
-                            something that captures the essence of old-school RPGs while adding modern touches.
+                            <strong style="color: var(--text-primary);">Gaba</strong> is a hobby project where I'm
+                            building my own programming language from scratch. Instead of only using existing languages,
+                            I wanted to understand how they are built—from converting source code into tokens, parsing
+                            them into an Abstract Syntax Tree (AST), and finally interpreting and executing the program.
                         </p>
                         <p>
-                            Built with <strong style="color: var(--text-primary);">LÖVE2D</strong> and <strong
-                                style="color: var(--text-primary);">Lua</strong>, this game features turn-based combat,
-                            exploration, character progression, and a story-driven experience. Every aspect of the
-                            game—from the pixel art to the game mechanics—has been crafted with care and attention to
-                            detail.
-                        </p>
-                        <p>
-                            This is an ongoing project that I continue to develop and improve. Your feedback is
-                            incredibly valuable in helping shape the future of this game!
+                            This project is not intended to compete with existing languages. It is a learning journey
+                            and an opportunity to experiment with language design, compiler concepts, and runtime
+                            environments while gradually adding features found in modern programming languages.
                         </p>
                     </div>
 
                     <div class="mt-8 flex flex-wrap gap-3">
                         <span class="px-4 py-2 rounded-full text-sm font-medium"
                             style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary);">
-                            <i class="fas fa-gamepad mr-2"></i>LÖVE2D
+                            <i class="fas fa-code mr-2"></i>Interpreter in Dart
                         </span>
                         <span class="px-4 py-2 rounded-full text-sm font-medium"
                             style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary);">
-                            <i class="fas fa-code mr-2"></i>Lua
+                            <i class="fas fa-file-code mr-2"></i>.gaba files
                         </span>
                         <span class="px-4 py-2 rounded-full text-sm font-medium"
                             style="background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary);">
-                            <i class="fas fa-palette mr-2"></i>Pixel Art
+                            <i class="fas fa-globe mr-2"></i>Cross-Platform
                         </span>
                     </div>
                 </div>
 
                 <div data-aos="fade-left" class="relative">
-                    <div class="aspect-square rounded-3xl overflow-hidden glow"
+                    <div class="aspect-square rounded-3xl overflow-hidden"
                         style="border: 1px solid var(--border); background: var(--bg-elevated);">
-                        <div class="w-full h-full flex items-center justify-center" style="color: var(--text-faint);">
-                            <i class="fas fa-dragon text-9xl"></i>
+                        <div class="w-full h-full flex flex-col items-center justify-center p-8">
+                            <div class="text-8xl sm:text-9xl font-black font-mono mb-4"
+                                style="color: var(--text-primary);">.gaba</div>
+                            <div class="text-sm font-mono space-y-1" style="color: var(--text-muted);">
+                                <div>Source Code <i class="fas fa-arrow-down mx-2"></i></div>
+                                <div>Lexer (Tokens) <i class="fas fa-arrow-down mx-2"></i></div>
+                                <div>Parser (AST) <i class="fas fa-arrow-down mx-2"></i></div>
+                                <div>Interpreter <i class="fas fa-arrow-down mx-2"></i></div>
+                                <div style="color: var(--text-primary); font-weight: bold;">Output</div>
+                            </div>
                         </div>
                     </div>
-                    <div class="absolute -bottom-6 -left-6 px-6 py-4 rounded-2xl"
+                    <div class="absolute -bottom-6 -right-6 px-6 py-4 rounded-2xl"
                         style="background: var(--bg-primary); border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
                         <div class="flex items-center gap-3">
                             <div class="w-12 h-12 rounded-full flex items-center justify-center"
                                 style="background: var(--accent);">
-                                <i class="fas fa-heart text-xl" style="color: var(--accent-inverse);"></i>
+                                <i class="fas fa-terminal text-xl" style="color: var(--accent-inverse);"></i>
                             </div>
                             <div>
-                                <div class="text-sm font-semibold" style="color: var(--text-primary);">Made with Love
-                                </div>
-                                <div class="text-xs" style="color: var(--text-muted);">Hobby Project</div>
+                                <div class="text-sm font-semibold" style="color: var(--text-primary);">Open Source</div>
+                                <div class="text-xs" style="color: var(--text-muted);">View on GitHub</div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-line max-w-7xl mx-auto"></div>
+
+    <!-- Installation Section -->
+    <section id="install" class="py-20 sm:py-32 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div data-aos="fade-up" class="text-center mb-16">
+                <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Getting
+                    Started</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
+                    Installation <span style="color: var(--text-muted);">Guide</span>
+                </h2>
+                <p class="mt-4 text-base sm:text-lg" style="color: var(--text-muted);">
+                    Install Gaba on Linux, macOS, or Windows using a single command.
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Linux / macOS -->
+                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
+                    style="border: 1px solid var(--border); background: var(--bg-card);">
+                    <div class="flex items-start gap-5">
+                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
+                                class="fab fa-linux"></i></div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Linux & macOS</h3>
+                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Run this command in your
+                                terminal to install the latest version:</p>
+                            <div class="p-4 rounded-xl font-mono text-sm mb-3"
+                                style="background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-primary);">
+                                curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.sh | bash
+                            </div>
+                            <p class="text-xs" style="color: var(--text-muted);">
+                                <strong>Uninstall:</strong> <code
+                                    class="path-highlight">curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.sh | bash</code><br>
+                                <strong>Path:</strong> <code class="path-highlight">~/.local/bin/gaba</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Windows PowerShell -->
+                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
+                    style="border: 1px solid var(--border); background: var(--bg-card);">
+                    <div class="flex items-start gap-5">
+                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
+                                class="fab fa-windows"></i></div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Windows (PowerShell)
+                            </h3>
+                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Open PowerShell as
+                                Administrator and run:</p>
+                            <div class="p-4 rounded-xl font-mono text-sm mb-3"
+                                style="background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-primary);">
+                                irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.ps1 | iex
+                            </div>
+                            <p class="text-xs" style="color: var(--text-muted);">
+                                <strong>Uninstall:</strong> <code
+                                    class="path-highlight">irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.ps1 | iex</code><br>
+                                <strong>Path:</strong> <code
+                                    class="path-highlight">%LOCALAPPDATA%\Programs\gaba\gaba.exe</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Windows CMD -->
+                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
+                    style="border: 1px solid var(--border); background: var(--bg-card);">
+                    <div class="flex items-start gap-5">
+                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
+                                class="fas fa-terminal"></i></div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Windows (Command
+                                Prompt)</h3>
+                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Open Command Prompt and run:
+                            </p>
+                            <div class="p-4 rounded-xl font-mono text-sm mb-3"
+                                style="background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-primary);">
+                                curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.bat -o
+                                install.bat && install.bat
+                            </div>
+                            <p class="text-xs" style="color: var(--text-muted);">
+                                <strong>Uninstall:</strong> <code
+                                    class="path-highlight">curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.bat -o uninstall.bat && uninstall.bat</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verify & Troubleshooting -->
+                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
+                    style="border: 1px solid var(--border); background: var(--bg-card);">
+                    <div class="flex items-start gap-5">
+                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
+                                class="fas fa-check"></i></div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Verify & Troubleshoot
+                            </h3>
+                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Verify installation by
+                                running:</p>
+                            <div class="p-4 rounded-xl font-mono text-sm mb-4"
+                                style="background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-primary);">
+                                gaba version
+                            </div>
+
+                            <div class="p-4 rounded-xl"
+                                style="background: var(--bg-elevated); border: 1px solid var(--border);">
+                                <h4 class="text-sm font-bold mb-2" style="color: var(--text-primary);"><i
+                                        class="fas fa-wrench mr-2"></i>Troubleshooting</h4>
+                                <ul class="text-sm space-y-2" style="color: var(--text-secondary);">
+                                    <li><strong>Linux/macOS:</strong> If <code class="path-highlight">gaba</code> is not
+                                        found, add this to <code class="path-highlight">~/.bashrc</code> or <code
+                                            class="path-highlight">~/.zshrc</code>:<br>
+                                        <code
+                                            class="path-highlight mt-1 block">export PATH="$HOME/.local/bin:$PATH"</code>
+                                        then run <code class="path-highlight">source ~/.bashrc</code>
+                                    </li>
+                                    <li><strong>Windows:</strong> If <code class="path-highlight">gaba</code> is not
+                                        recognized, simply restart your terminal or open a new Command Prompt/PowerShell
+                                        window.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-line max-w-7xl mx-auto"></div>
+
+    <!-- Code Section -->
+    <section id="code" class="py-20 sm:py-32 relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div data-aos="fade-up" class="text-center mb-12">
+                <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Example
+                    Code</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
+                    See Gaba in <span style="color: var(--text-muted);">Action</span>
+                </h2>
+                <p class="mt-4 text-base sm:text-lg" style="color: var(--text-muted);">
+                    A showcase of variables, loops, functions, lists, maps, and the <code
+                        class="path-highlight">~</code> object method operator.
+                </p>
+            </div>
+
+            <div data-aos="fade-up" class="code-container">
+                <div class="code-header">
+                    <div class="code-dots">
+                        <div class="code-dot"></div>
+                        <div class="code-dot"></div>
+                        <div class="code-dot"></div>
+                    </div>
+                    <div class="code-filename"><i class="fas fa-file-code mr-2"></i>main.gaba</div>
+                    <button id="copyBtn" class="copy-btn" onclick="copyCode()">
+                        <i class="fas fa-copy"></i><span id="copyText">Copy</span>
+                    </button>
+                </div>
+                <div class="code-body">
+                    <pre id="codeContent"></pre>
                 </div>
             </div>
         </div>
@@ -660,10 +938,10 @@
     <section id="features" class="py-20 sm:py-32 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div data-aos="fade-up" class="text-center mb-16">
-                <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Game
+                <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Language
                     Features</span>
                 <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
-                    What's <span style="color: var(--text-muted);">Inside</span>
+                    What's in <span style="color: var(--text-muted);">Gaba</span>
                 </h2>
             </div>
 
@@ -671,65 +949,67 @@
                 <div data-aos="fade-up" data-aos-delay="100" class="feature-box p-6 rounded-2xl card-shine"
                     style="border: 1px solid var(--border); background: var(--bg-card);">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                        style="background: var(--accent);">
-                        <i class="fas fa-sword-alt text-xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Turn-Based Combat</h3>
-                    <p class="text-sm" style="color: var(--text-muted);">Strategic battles with unique enemy types and
-                        abilities</p>
+                        style="background: var(--accent);"><i class="fas fa-code-branch text-xl"
+                            style="color: var(--accent-inverse);"></i></div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Control Flow</h3>
+                    <p class="text-sm" style="color: var(--text-muted);">Full support for <code
+                            class="path-highlight">if/else</code>, <code class="path-highlight">while</code>, and <code
+                            class="path-highlight">for</code> loops, plus <code class="path-highlight">stop</code> and
+                        <code class="path-highlight">skip</code> controls.</p>
                 </div>
 
                 <div data-aos="fade-up" data-aos-delay="200" class="feature-box p-6 rounded-2xl card-shine"
                     style="border: 1px solid var(--border); background: var(--bg-card);">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                        style="background: var(--accent);">
-                        <i class="fas fa-map text-xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Explore Dungeons</h3>
-                    <p class="text-sm" style="color: var(--text-muted);">Discover hidden treasures and secrets in
-                        procedurally generated areas</p>
+                        style="background: var(--accent);"><i class="fas fa-cube text-xl"
+                            style="color: var(--accent-inverse);"></i></div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Functions</h3>
+                    <p class="text-sm" style="color: var(--text-muted);">Define with <code
+                            class="path-highlight">fun</code>, return values with <code
+                            class="path-highlight">give</code>. Supports nested calls and recursion.</p>
                 </div>
 
                 <div data-aos="fade-up" data-aos-delay="300" class="feature-box p-6 rounded-2xl card-shine"
                     style="border: 1px solid var(--border); background: var(--bg-card);">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                        style="background: var(--accent);">
-                        <i class="fas fa-user-shield text-xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Character Progression</h3>
-                    <p class="text-sm" style="color: var(--text-muted);">Level up, gain new skills, and customize your
-                        playstyle</p>
+                        style="background: var(--accent);"><i class="fas fa-list text-xl"
+                            style="color: var(--accent-inverse);"></i></div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Lists & Maps</h3>
+                    <p class="text-sm" style="color: var(--text-muted);">Built-in data structures with methods like
+                        <code class="path-highlight">~push()</code>, <code class="path-highlight">~keys()</code>,
+                        indexing, and assignment.</p>
                 </div>
 
                 <div data-aos="fade-up" data-aos-delay="400" class="feature-box p-6 rounded-2xl card-shine"
                     style="border: 1px solid var(--border); background: var(--bg-card);">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                        style="background: var(--accent);">
-                        <i class="fas fa-scroll text-xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Story-Driven</h3>
-                    <p class="text-sm" style="color: var(--text-muted);">Uncover the mysteries of a forgotten world
-                        through quests</p>
+                        style="background: var(--accent);"><i class="fas fa-puzzle-piece text-xl"
+                            style="color: var(--accent-inverse);"></i></div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Modules</h3>
+                    <p class="text-sm" style="color: var(--text-muted);">Import standard libraries like <code
+                            class="path-highlight">import "math"</code> and call methods cleanly.</p>
                 </div>
 
                 <div data-aos="fade-up" data-aos-delay="500" class="feature-box p-6 rounded-2xl card-shine"
                     style="border: 1px solid var(--border); background: var(--bg-card);">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                        style="background: var(--accent);">
-                        <i class="fas fa-gem text-xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Loot & Equipment</h3>
-                    <p class="text-sm" style="color: var(--text-muted);">Collect weapons, armor, and magical items</p>
+                        style="background: var(--accent);"><i class="fas fa-keyboard text-xl"
+                            style="color: var(--accent-inverse);"></i></div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Native Functions</h3>
+                    <p class="text-sm" style="color: var(--text-muted);">Built-ins include <code
+                            class="path-highlight">say()</code>, <code class="path-highlight">ask()</code>, and type
+                        converters like <code class="path-highlight">int()</code>, <code
+                            class="path-highlight">str()</code>, <code class="path-highlight">bool()</code>.</p>
                 </div>
 
                 <div data-aos="fade-up" data-aos-delay="600" class="feature-box p-6 rounded-2xl card-shine"
                     style="border: 1px solid var(--border); background: var(--bg-card);">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                        style="background: var(--accent);">
-                        <i class="fas fa-music text-xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Original Soundtrack</h3>
-                    <p class="text-sm" style="color: var(--text-muted);">Immersive music and sound effects</p>
+                        style="background: var(--accent);"><i class="fas fa-microchip text-xl"
+                            style="color: var(--accent-inverse);"></i></div>
+                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Interpreter Pipeline</h3>
+                    <p class="text-sm" style="color: var(--text-muted);">Learn from the clean architecture: Lexer →
+                        Parser (AST) → Interpreter Runtime.</p>
                 </div>
             </div>
         </div>
@@ -737,111 +1017,65 @@
 
     <div class="section-line max-w-7xl mx-auto"></div>
 
-    <!-- Download Section -->
-    <section id="download" class="py-20 sm:py-32 relative">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div data-aos="fade-up">
-                <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Get The
-                    Game</span>
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 mb-6">
-                    Download <span style="color: var(--text-muted);">Now</span>
-                </h2>
-                <p class="text-lg mb-12" style="color: var(--text-muted);">
-                    Version 0.0.1 is available for download. Try it out and share your feedback to help improve the
-                    game!
-                </p>
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="100" class="grid sm:grid-cols-2 gap-6 mb-12">
-                <a href="https://github.com/DivanshLpu/indie-game/releases" target="_blank"
-                    class="group p-8 rounded-2xl transition-all card-shine"
-                    style="border: 1px solid var(--border); background: var(--bg-card);"
-                    onmouseover="this.style.borderColor='var(--border-hover)'; this.style.background='var(--bg-card-hover)'"
-                    onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-card)'">
-                    <div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform"
-                        style="background: var(--accent);">
-                        <i class="fab fa-github text-3xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">GitHub Releases</h3>
-                    <p class="text-sm mb-4" style="color: var(--text-muted);">Download the latest version from GitHub
-                    </p>
-                    <span class="inline-flex items-center gap-2 text-sm font-medium"
-                        style="color: var(--text-primary);">
-                        <span>Download</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </span>
-                </a>
-
-                <a href="https://github.com/DivanshLpu/indie-game" target="_blank"
-                    class="group p-8 rounded-2xl transition-all card-shine"
-                    style="border: 1px solid var(--border); background: var(--bg-card);"
-                    onmouseover="this.style.borderColor='var(--border-hover)'; this.style.background='var(--bg-card-hover)'"
-                    onmouseout="this.style.borderColor='var(--border)'; this.style.background='var(--bg-card)'">
-                    <div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center group-hover:scale-110 transition-transform"
-                        style="background: var(--accent);">
-                        <i class="fas fa-code text-3xl" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">View Source Code</h3>
-                    <p class="text-sm mb-4" style="color: var(--text-muted);">Check out the code on GitHub</p>
-                    <span class="inline-flex items-center gap-2 text-sm font-medium"
-                        style="color: var(--text-primary);">
-                        <span>View Repo</span>
-                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </span>
-                </a>
-            </div>
-
-            <div data-aos="fade-up" data-aos-delay="200" class="p-6 rounded-2xl"
-                style="border: 1px solid var(--border); background: var(--bg-card);">
-                <div class="flex items-start gap-4">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-                        style="background: var(--accent);">
-                        <i class="fas fa-info" style="color: var(--accent-inverse);"></i>
-                    </div>
-                    <div class="text-left">
-                        <h4 class="font-semibold mb-1" style="color: var(--text-primary);">System Requirements</h4>
-                        <p class="text-sm" style="color: var(--text-muted);">
-                            Windows 10/11, macOS 10.15+, or Linux. Requires LÖVE2D runtime (included in download).
-                            Minimum 2GB RAM, 500MB storage space.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-line max-w-7xl mx-auto"></div>
-
-    <!-- Feedback Section -->
+    <!-- GitHub & Docs Section -->
     <section class="py-20 sm:py-32 relative">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div data-aos="fade-up">
-                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
-                    Your <span style="color: var(--text-muted);">Feedback</span> Matters
+                <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Open Source &
+                    Learning</span>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2 mb-6">
+                    Explore the <span style="color: var(--text-muted);">Source Code</span>
                 </h2>
                 <p class="text-lg mb-12" style="color: var(--text-muted);">
-                    Help me improve this game by sharing your thoughts, bug reports, and suggestions. Every piece of
-                    feedback helps make the game better!
+                    Gaba is a personal learning project that is completely free and open source. Check out the
+                    repository to see the lexer, parser, and interpreter implementation, or read the full documentation.
                 </p>
             </div>
 
             <div data-aos="fade-up" data-aos-delay="100"
-                class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="https://github.com/DivanshLpu/indie-game/issues" target="_blank"
+                class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <a href="https://github.com/DivanshLpu/gaba/blob/main/DOC.md" target="_blank"
                     class="group w-full sm:w-auto px-8 py-4 font-semibold rounded-xl hover:scale-105 transition-all flex items-center justify-center gap-3"
                     style="background: var(--accent); color: var(--accent-inverse);">
-                    <i class="fas fa-bug"></i>
-                    <span>Report a Bug</span>
+                    <i class="fas fa-book-open"></i>
+                    <span>Read Tutorial & Docs</span>
                     <i
                         class="fas fa-arrow-up-right-from-square text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
                 </a>
-                <a href="https://github.com/DivanshLpu/indie-game/discussions" target="_blank"
+                <a href="https://github.com/DivanshLpu/gaba" target="_blank"
                     class="w-full sm:w-auto px-8 py-4 font-semibold rounded-xl transition-all flex items-center justify-center gap-3"
                     style="border: 1px solid var(--border); color: var(--text-primary);"
                     onmouseover="this.style.background='var(--bg-card-hover)'; this.style.borderColor='var(--border-hover)'"
                     onmouseout="this.style.background='transparent'; this.style.borderColor='var(--border)'">
-                    <i class="fas fa-comments"></i>
-                    <span>Join Discussion</span>
+                    <i class="fab fa-github"></i>
+                    <span>View Repository</span>
+                </a>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="200" class="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                <a href="https://github.com/DivanshLpu/gaba/issues" target="_blank"
+                    class="p-5 rounded-xl transition-all"
+                    style="border: 1px solid var(--border); background: var(--bg-card);"
+                    onmouseover="this.style.background='var(--bg-card-hover)'; this.style.borderColor='var(--border-hover)'"
+                    onmouseout="this.style.background='var(--bg-card)'; this.style.borderColor='var(--border)'">
+                    <i class="fas fa-bug text-xl mb-2" style="color: var(--text-primary);"></i>
+                    <div class="text-sm font-medium" style="color: var(--text-primary);">Report Bug</div>
+                </a>
+                <a href="https://github.com/DivanshLpu/gaba/discussions" target="_blank"
+                    class="p-5 rounded-xl transition-all"
+                    style="border: 1px solid var(--border); background: var(--bg-card);"
+                    onmouseover="this.style.background='var(--bg-card-hover)'; this.style.borderColor='var(--border-hover)'"
+                    onmouseout="this.style.background='var(--bg-card)'; this.style.borderColor='var(--border)'">
+                    <i class="fas fa-comments text-xl mb-2" style="color: var(--text-primary);"></i>
+                    <div class="text-sm font-medium" style="color: var(--text-primary);">Discuss</div>
+                </a>
+                <a href="https://github.com/DivanshLpu/gaba/stargazers" target="_blank"
+                    class="p-5 rounded-xl transition-all"
+                    style="border: 1px solid var(--border); background: var(--bg-card);"
+                    onmouseover="this.style.background='var(--bg-card-hover)'; this.style.borderColor='var(--border-hover)'"
+                    onmouseout="this.style.background='var(--bg-card)'; this.style.borderColor='var(--border)'">
+                    <i class="fas fa-star text-xl mb-2" style="color: var(--text-primary);"></i>
+                    <div class="text-sm font-medium" style="color: var(--text-primary);">Star Repo</div>
                 </a>
             </div>
         </div>
@@ -859,11 +1093,11 @@
                 </div>
 
                 <p class="text-sm" style="color: var(--text-muted);">
-                    Indie Game Project © 2026 · A hobby project by Divansh
+                    Gaba Language v1.3.6 © 2026 · Built with Dart · FREEEEEEEEEE
                 </p>
 
                 <div class="flex gap-4">
-                    <a href="https://github.com/DivanshLpu/indie-game" target="_blank"
+                    <a href="https://github.com/DivanshLpu/gaba" target="_blank"
                         class="w-10 h-10 rounded-lg flex items-center justify-center transition-all"
                         style="border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted);"
                         onmouseover="this.style.color='var(--text-primary)'; this.style.borderColor='var(--border-hover)'"
@@ -885,24 +1119,115 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
+        // ===== BULLETPROOF SINGLE-PASS SYNTAX HIGHLIGHTER =====
+        function highlightGaba(code) {
+            // 1. Escape HTML to prevent XSS and rendering issues
+            let escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            // 2. Single-pass regex for bulletproof syntax highlighting
+            // Order matters: Comments -> Strings -> Keywords -> Booleans -> Numbers -> Functions -> Operators
+            const regex = /(\/\/.*)|("[^"\\]*(?:\\.[^"\\]*)*")|\b(let|say|if|else|while|for|in|fun|give|ask|stop|skip|import)\b|\b(true|false)\b|\b(\d+\.?\d*)\b|(~?[a-zA-Z_][a-zA-Z0-9_]*)(?=\s*\()|([+\-*/=<>!]+|~)/g;
+
+            const highlighted = escaped.replace(regex, (match, comment, string, keyword, boolean, number, funcName, operator) => {
+                if (comment) return `<span class="token-comment">${comment}</span>`;
+                if (string) return `<span class="token-string">${string}</span>`;
+                if (keyword) return `<span class="token-keyword">${keyword}</span>`;
+                if (boolean) return `<span class="token-boolean">${boolean}</span>`;
+                if (number) return `<span class="token-number">${number}</span>`;
+                if (funcName) {
+                    if (funcName.startsWith('~')) {
+                        return `~<span class="token-function">${funcName.slice(1)}</span>`;
+                    }
+                    return `<span class="token-function">${funcName}</span>`;
+                }
+                if (operator) return `<span class="token-operator">${operator}</span>`;
+                return match;
+            });
+
+            // 3. Add line numbers
+            return highlighted.split('\n').map(line => `<span class="code-line">${line || ' '}</span>`).join('\n');
+        }
+
+        // ===== GABA CODE EXAMPLE =====
+        const gabaCode = `// Gaba Language v1.3.6 Example
+// Demonstrating variables, loops, functions, lists, and maps
+
+say("========== GABA LANGUAGE TEST ==========")
+
+// 1. Variables & Arithmetic
+let name = "Divansh"
+let age = 20
+say("Hello, " + name)
+say("In 5 years, age will be: " + (age + 5))
+
+// 2. Lists & Object Methods (~ operator)
+let numbers = [10, 20, 30]
+numbers~push(40)
+say("List length: " + numbers~length())
+
+// 3. Maps
+let product = {
+    "name": "Laptop",
+    "price": 50000
+}
+say("Product: " + product["name"])
+
+// 4. Loops & Control
+let counter = 1
+while counter <= 3 {
+    say("While loop count: " + counter)
+    counter = counter + 1
+}
+
+let items = ["Apple", "Banana", "Cherry"]
+for item in items {
+    if item == "Banana" {
+        skip
+    }
+    say("Item: " + item)
+}
+
+// 5. Functions & Native Calls
+fun add(a, b) {
+    give a + b
+}
+
+let result = add(15, 25)
+say("Function result: " + result)
+
+let userInput = int(ask("Enter a number: "))
+say("You entered: " + userInput)
+
+say("Program Finished")`;
+
+        // Render code on load
+        document.getElementById('codeContent').innerHTML = highlightGaba(gabaCode);
+
+        // ===== COPY FUNCTION =====
+        function copyCode() {
+            const btn = document.getElementById('copyBtn');
+            const text = document.getElementById('copyText');
+            navigator.clipboard.writeText(gabaCode).then(() => {
+                btn.classList.add('copied');
+                text.textContent = 'Copied!';
+                btn.querySelector('i').className = 'fas fa-check';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    text.textContent = 'Copy';
+                    btn.querySelector('i').className = 'fas fa-copy';
+                }, 2000);
+            });
+        }
+
         // ===== THEME MANAGEMENT =====
         const themeIcons = { light: 'fa-sun', dark: 'fa-moon' };
-
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('portfolio-theme', theme);
-            document.querySelectorAll('.theme-btn i').forEach(icon => {
-                icon.className = `fas ${themeIcons[theme]}`;
-            });
-            document.querySelectorAll('.theme-option').forEach(option => {
-                option.classList.toggle('active', option.dataset.theme === theme);
-            });
+            document.querySelectorAll('.theme-btn i').forEach(icon => { icon.className = `fas ${themeIcons[theme]}`; });
+            document.querySelectorAll('.theme-option').forEach(option => { option.classList.toggle('active', option.dataset.theme === theme); });
         }
-
-        function initTheme() {
-            const savedTheme = localStorage.getItem('portfolio-theme') || 'light';
-            setTheme(savedTheme);
-        }
+        function initTheme() { setTheme(localStorage.getItem('portfolio-theme') || 'light'); }
         initTheme();
 
         const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -910,27 +1235,18 @@
         const themeDropdown = document.getElementById('themeDropdown');
         const themeDropdownMobile = document.getElementById('themeDropdownMobile');
 
-        function toggleDropdown(dropdown, otherDropdown) {
-            otherDropdown.classList.remove('active');
-            dropdown.classList.toggle('active');
-        }
-
+        function toggleDropdown(dropdown, otherDropdown) { otherDropdown.classList.remove('active'); dropdown.classList.toggle('active'); }
         themeToggleBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(themeDropdown, themeDropdownMobile); });
         themeToggleBtnMobile.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(themeDropdownMobile, themeDropdown); });
 
         document.querySelectorAll('.theme-option').forEach(option => {
             option.addEventListener('click', (e) => {
-                e.stopPropagation();
-                setTheme(option.dataset.theme);
-                themeDropdown.classList.remove('active');
-                themeDropdownMobile.classList.remove('active');
+                e.stopPropagation(); setTheme(option.dataset.theme);
+                themeDropdown.classList.remove('active'); themeDropdownMobile.classList.remove('active');
             });
         });
 
-        document.addEventListener('click', () => {
-            themeDropdown.classList.remove('active');
-            themeDropdownMobile.classList.remove('active');
-        });
+        document.addEventListener('click', () => { themeDropdown.classList.remove('active'); themeDropdownMobile.classList.remove('active'); });
         themeDropdown.addEventListener('click', (e) => e.stopPropagation());
         themeDropdownMobile.addEventListener('click', (e) => e.stopPropagation());
 
@@ -940,60 +1256,38 @@
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+        menuBtn.addEventListener('click', () => { mobileMenu.classList.add('active'); document.body.style.overflow = 'hidden'; });
+        closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = ''; });
+        mobileLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = ''; }); });
 
-        closeMenu.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-
-        // ===== AOS INIT =====
+        // ===== AOS & SCROLL =====
         AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
 
-        // ===== SCROLL PROGRESS =====
         const scrollProgress = document.getElementById('scrollProgress');
         window.addEventListener('scroll', () => {
             const scrollTop = document.documentElement.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             scrollProgress.style.width = (scrollTop / scrollHeight) * 100 + '%';
-        });
 
-        // ===== NAVBAR SCROLL =====
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
                 navbar.style.background = 'var(--bg-primary)';
                 navbar.style.backdropFilter = 'blur(20px)';
                 navbar.style.borderBottom = '1px solid var(--border)';
-                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
             } else {
                 navbar.style.background = 'transparent';
                 navbar.style.backdropFilter = 'none';
                 navbar.style.borderBottom = 'none';
-                navbar.style.boxShadow = 'none';
             }
         });
 
-        // ===== SMOOTH SCROLL =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const href = this.getAttribute('href');
                 if (href === '#') return;
                 e.preventDefault();
                 const target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
     </script>
