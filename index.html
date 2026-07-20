@@ -3,17 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Gaba Programming Language | v1.3.6 by Divansh</title>
     <meta name="description"
         content="Gaba - A simple, interpreted programming language written in Dart. Learn how interpreters, parsers, and lexers work.">
 
-    <!-- FORCE NO CACHING -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -28,21 +26,15 @@
         }
     </script>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
         rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* ===== THEME VARIABLES ===== */
         :root,
         [data-theme="light"] {
             --bg-primary: #ffffff;
@@ -106,25 +98,23 @@
             --code-operator: #737373;
         }
 
-        /* ===== GLOBAL FIXES ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* CRITICAL: Prevent horizontal scroll on the entire page */
         html,
         body {
             max-width: 100%;
             overflow-x: hidden;
-            width: 100%;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
+            overflow-x: hidden;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
@@ -224,82 +214,48 @@
             transform: translateX(0);
         }
 
-        /* ===== TERMINAL / CODE BLOCK STYLES (FIXED FOR MOBILE) ===== */
-        .terminal-window {
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            /* Contains everything */
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        #navbar {
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
-        .terminal-header {
+        .hamburger-btn {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
+            justify-content: center;
+            border-radius: 12px;
             background: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .terminal-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--text-faint);
-        }
-
-        .terminal-title {
-            font-size: 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-muted);
-            margin-left: 8px;
-        }
-
-        .terminal-body {
-            padding: 16px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text-primary);
-            /* CRITICAL FIX: Wrap text to prevent horizontal overflow */
-            white-space: pre-wrap;
-            word-break: break-all;
-            line-height: 1.6;
-        }
-
-        .terminal-prompt {
-            color: var(--text-muted);
-            user-select: none;
-            margin-right: 8px;
-        }
-
-        /* Path Highlighting */
-        .path-highlight {
-            font-family: 'JetBrains Mono', monospace;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: var(--bg-card-hover);
             border: 1px solid var(--border);
-            font-size: 0.85em;
             color: var(--text-primary);
-            word-break: break-all;
-            /* Ensure paths wrap on mobile */
-            display: inline-block;
-            max-width: 100%;
-        }
-
-        /* ===== NAVBAR & THEME ===== */
-        .theme-toggle {
-            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
             z-index: 60;
         }
 
+        .hamburger-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+        }
+
+        .hamburger-btn i {
+            font-size: 1.1rem;
+        }
+
+        .theme-toggle {
+            position: relative;
+            flex-shrink: 0;
+        }
+
         .theme-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            border-radius: 12px;
             background: var(--bg-card);
             border: 1px solid var(--border);
             color: var(--text-primary);
@@ -403,7 +359,8 @@
 
         .theme-btn,
         .theme-dropdown,
-        .mobile-menu {
+        .mobile-menu,
+        .hamburger-btn {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -415,9 +372,113 @@
             background: linear-gradient(90deg, var(--text-primary), var(--text-muted));
             z-index: 9999;
             transition: width 0.1s;
+            max-width: 100vw;
         }
 
-        /* ===== CODE BLOCK STYLES (Example Code) ===== */
+        /* Compact Command Blocks with Text Wrapping */
+        .cmd-section {
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+
+        .cmd-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cmd-block {
+            position: relative;
+            padding: 8px 10px;
+            border-radius: 6px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+            max-width: 100%;
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .cmd-block code {
+            display: inline;
+            color: var(--text-primary);
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .cmd-copy-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.65rem;
+            opacity: 0.7;
+        }
+
+        .cmd-block:hover .cmd-copy-btn {
+            opacity: 1;
+        }
+
+        .cmd-copy-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+            opacity: 1;
+        }
+
+        .cmd-copy-btn.copied {
+            background: var(--accent);
+            color: var(--accent-inverse);
+            border-color: var(--accent);
+            opacity: 1;
+        }
+
+        .cmd-info {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        .cmd-info strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .path-tag {
+            display: inline;
+            padding: 1px 4px;
+            border-radius: 3px;
+            background: var(--bg-card-hover);
+            border: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-primary);
+            overflow-wrap: break-word;
+            word-break: break-word;
+            line-height: 1.3;
+        }
+
+        /* Code Block Styles */
         .code-container {
             position: relative;
             border-radius: 16px;
@@ -425,6 +486,7 @@
             border: 1px solid var(--border);
             background: var(--code-bg);
             font-family: 'JetBrains Mono', monospace;
+            max-width: 100%;
         }
 
         .code-header {
@@ -434,11 +496,13 @@
             padding: 12px 20px;
             border-bottom: 1px solid var(--border);
             background: var(--bg-elevated);
+            flex-wrap: nowrap;
         }
 
         .code-dots {
             display: flex;
             gap: 6px;
+            flex-shrink: 0;
         }
 
         .code-dot {
@@ -467,6 +531,7 @@
             cursor: pointer;
             transition: all 0.3s;
             font-family: 'Inter', sans-serif;
+            flex-shrink: 0;
         }
 
         .copy-btn:hover {
@@ -547,6 +612,7 @@
 
         .step-card {
             transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .step-card:hover {
@@ -555,16 +621,31 @@
         }
 
         .step-number {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1rem;
             flex-shrink: 0;
+        }
+
+        .path-highlight {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--bg-card-hover);
+            border: 1px solid var(--border);
+            font-size: 0.7rem;
+            color: var(--text-primary);
+            overflow-wrap: break-word;
+            word-break: break-word;
+            display: inline;
+            max-width: 100%;
         }
 
         .feature-box {
@@ -576,15 +657,64 @@
             border-color: var(--border-hover);
         }
 
+        .sub-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            margin-bottom: 6px;
+        }
+
+        .sub-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .sub-step-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            min-width: 20px;
+        }
+
+        .sub-step-text {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .sub-step-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        kbd {
+            display: inline-block;
+            padding: 2px 5px;
+            border-radius: 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
         @media (max-width: 768px) {
             .theme-dropdown {
                 right: 0;
-                min-width: 150px;
+                min-width: 140px;
             }
 
             .code-body {
                 font-size: 0.75rem;
-                padding: 16px;
+                padding: 14px;
             }
 
             .code-line {
@@ -596,9 +726,50 @@
                 font-size: 0.7rem;
             }
 
-            /* Mobile Navbar Adjustments */
-            .mobile-nav-container {
-                gap: 12px;
+            .cmd-section {
+                padding: 10px 12px;
+            }
+
+            .cmd-block {
+                padding: 6px 8px;
+                font-size: 0.7rem;
+            }
+
+            .cmd-copy-btn {
+                width: 22px;
+                height: 22px;
+                opacity: 1;
+            }
+
+            .step-number {
+                width: 32px;
+                height: 32px;
+                min-width: 32px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sub-step {
+                padding: 6px;
+                gap: 6px;
+            }
+
+            .sub-step-number {
+                font-size: 0.65rem;
+                min-width: 18px;
+            }
+
+            .sub-step-text {
+                font-size: 0.7rem;
+            }
+
+            .cmd-title {
+                font-size: 0.75rem;
+            }
+
+            .cmd-block {
+                font-size: 0.65rem;
             }
         }
     </style>
@@ -609,11 +780,10 @@
     <div class="scroll-progress" id="scrollProgress"></div>
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        style="background: var(--bg-primary);">
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20">
-                <a href="index.html" class="flex items-center gap-2 group">
+            <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+                <a href="/" class="flex items-center gap-2 group flex-shrink-0">
                     <div class="w-10 h-10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                         style="background: var(--accent);">
                         <span class="font-bold text-lg font-mono" style="color: var(--accent-inverse);">D</span>
@@ -622,8 +792,8 @@
                             style="color: var(--text-muted);">.</span></span>
                 </a>
 
-                <div class="hidden md:flex items-center gap-1">
-                    <a href="index.html" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
+                <div class="hidden md:flex items-center gap-1 flex-1 justify-end">
+                    <a href="/" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
                         style="color: var(--text-muted);">Portfolio</a>
                     <a href="#about" class="px-4 py-2 text-sm rounded-lg hover:bg-[var(--bg-card-hover)]"
                         style="color: var(--text-muted);">About</a>
@@ -648,23 +818,26 @@
                     </div>
                 </div>
 
-                <!-- Mobile Nav: Fixed Alignment & Z-Index -->
-                <div class="md:hidden flex items-center gap-3 mobile-nav-container relative z-50">
+                <div class="flex md:hidden items-center gap-2 flex-shrink-0">
                     <div class="theme-toggle">
-                        <button id="themeToggleBtnMobile" class="theme-btn" aria-label="Toggle theme"><i
-                                class="fas fa-sun"></i></button>
+                        <button id="themeToggleBtnMobile" class="theme-btn" aria-label="Toggle theme">
+                            <i class="fas fa-sun"></i>
+                        </button>
                         <div id="themeDropdownMobile" class="theme-dropdown">
-                            <div class="theme-option active" data-theme="light"><span
-                                    class="theme-preview light-preview"></span><i
-                                    class="fas fa-sun"></i><span>Light</span></div>
-                            <div class="theme-option" data-theme="dark"><span
-                                    class="theme-preview dark-preview"></span><i
-                                    class="fas fa-moon"></i><span>Dark</span></div>
+                            <div class="theme-option active" data-theme="light">
+                                <span class="theme-preview light-preview"></span>
+                                <i class="fas fa-sun"></i>
+                                <span>Light</span>
+                            </div>
+                            <div class="theme-option" data-theme="dark">
+                                <span class="theme-preview dark-preview"></span>
+                                <i class="fas fa-moon"></i>
+                                <span>Dark</span>
+                            </div>
                         </div>
                     </div>
-                    <button id="menuBtn" class="w-10 h-10 flex items-center justify-center rounded-lg"
-                        style="background: var(--bg-card); border: 1px solid var(--border);">
-                        <i class="fas fa-bars text-lg" style="color: var(--text-primary);"></i>
+                    <button id="menuBtn" class="hamburger-btn" aria-label="Open menu">
+                        <i class="fas fa-bars"></i>
                     </button>
                 </div>
             </div>
@@ -673,19 +846,18 @@
 
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu fixed inset-0 z-[60] flex flex-col" style="background: var(--bg-primary);">
-        <div class="flex items-center justify-between p-4 sm:p-6">
-            <a href="index.html" class="flex items-center gap-2">
+        <div class="flex items-center justify-between p-4 sm:p-6 border-b" style="border-color: var(--border);">
+            <a href="/" class="flex items-center gap-2">
                 <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: var(--accent);">
-                    <span class="font-bold text-lg font-mono" style="color: var(--accent-inverse);">D</span>
-                </div>
+                    <span class="font-bold text-lg font-mono" style="color: var(--accent-inverse);">D</span></div>
                 <span class="font-semibold text-lg" style="color: var(--text-primary);">Divansh</span>
             </a>
-            <button id="closeMenu" class="w-10 h-10 flex items-center justify-center rounded-lg"
-                style="background: var(--bg-card); border: 1px solid var(--border);"><i class="fas fa-times text-lg"
-                    style="color: var(--text-primary);"></i></button>
+            <button id="closeMenu" class="hamburger-btn" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
-        <div class="flex-1 flex flex-col items-center justify-center gap-6">
-            <a href="index.html" class="mobile-link text-2xl font-semibold"
+        <div class="flex-1 flex flex-col items-center justify-center gap-6 p-6">
+            <a href="/" class="mobile-link text-2xl font-semibold"
                 style="color: var(--text-primary);">Portfolio</a>
             <a href="#about" class="mobile-link text-2xl font-semibold" style="color: var(--text-primary);">About</a>
             <a href="#install" class="mobile-link text-2xl font-semibold"
@@ -694,10 +866,10 @@
             <a href="#features" class="mobile-link text-2xl font-semibold"
                 style="color: var(--text-primary);">Features</a>
         </div>
-        <div class="p-6 flex justify-center gap-6">
+        <div class="p-6 flex justify-center gap-6 border-t" style="border-color: var(--border);">
             <a href="https://github.com/DivanshLpu/gaba" target="_blank" style="color: var(--text-muted);"
                 class="text-xl"><i class="fab fa-github"></i></a>
-            <a href="index.html" style="color: var(--text-muted);" class="text-xl"><i class="fas fa-home"></i></a>
+            <a href="/" style="color: var(--text-muted);" class="text-xl"><i class="fas fa-home"></i></a>
         </div>
     </div>
 
@@ -812,9 +984,9 @@
                     <div class="aspect-square rounded-3xl overflow-hidden"
                         style="border: 1px solid var(--border); background: var(--bg-elevated);">
                         <div class="w-full h-full flex flex-col items-center justify-center p-8">
-                            <div class="text-8xl sm:text-9xl font-black font-mono mb-4"
+                            <div class="text-7xl sm:text-8xl md:text-9xl font-black font-mono mb-4"
                                 style="color: var(--text-primary);">.gaba</div>
-                            <div class="text-sm font-mono space-y-1" style="color: var(--text-muted);">
+                            <div class="text-xs sm:text-sm font-mono space-y-1" style="color: var(--text-muted);">
                                 <div>Source Code <i class="fas fa-arrow-down mx-2"></i></div>
                                 <div>Lexer (Tokens) <i class="fas fa-arrow-down mx-2"></i></div>
                                 <div>Parser (AST) <i class="fas fa-arrow-down mx-2"></i></div>
@@ -823,10 +995,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="absolute -bottom-6 -right-6 px-6 py-4 rounded-2xl"
+                    <div class="absolute -bottom-6 -right-6 px-6 py-4 rounded-2xl max-w-[220px]"
                         style="background: var(--bg-primary); border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
                         <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center"
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"
                                 style="background: var(--accent);">
                                 <i class="fas fa-terminal text-xl" style="color: var(--accent-inverse);"></i>
                             </div>
@@ -843,10 +1015,10 @@
 
     <div class="section-line max-w-7xl mx-auto"></div>
 
-    <!-- Installation Section -->
+    <!-- Installation Section - COMPACT WITH TEXT WRAPPING -->
     <section id="install" class="py-20 sm:py-32 relative">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div data-aos="fade-up" class="text-center mb-16">
+            <div data-aos="fade-up" class="text-center mb-12">
                 <span class="text-sm font-mono tracking-wider uppercase" style="color: var(--text-muted);">Getting
                     Started</span>
                 <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-2">
@@ -857,167 +1029,107 @@
                 </p>
             </div>
 
-            <div class="space-y-6">
+            <div class="space-y-3">
                 <!-- Linux / macOS -->
-                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
-                    style="border: 1px solid var(--border); background: var(--bg-card);">
-                    <div class="flex items-start gap-5">
-                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
-                                class="fab fa-linux"></i></div>
-                        <div class="flex-1 w-full min-w-0"> <!-- min-w-0 is crucial for flex children to shrink -->
-                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Linux & macOS</h3>
-                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Run this command in your
-                                terminal to install the latest version:</p>
-
-                            <!-- Terminal Window Design -->
-                            <div class="terminal-window">
-                                <div class="terminal-header">
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <span class="terminal-title">bash</span>
-                                </div>
-                                <div class="terminal-body">
-                                    <span class="terminal-prompt">$</span>curl -fsSL
-                                    https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.sh | bash
-                                </div>
-                            </div>
-
-                            <div class="mt-4 space-y-2 text-xs" style="color: var(--text-muted);">
-                                <div class="flex items-start gap-2 flex-wrap">
-                                    <strong class="flex-shrink-0">Uninstall:</strong>
-                                    <code
-                                        class="path-highlight">curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.sh | bash</code>
-                                </div>
-                                <div class="flex items-start gap-2 flex-wrap">
-                                    <strong class="flex-shrink-0">Path:</strong>
-                                    <code class="path-highlight">~/.local/bin/gaba</code>
-                                </div>
-                            </div>
+                <div data-aos="fade-up" class="cmd-section">
+                    <div class="cmd-title">
+                        <i class="fab fa-linux" style="color: var(--text-muted);"></i>
+                        Linux & macOS
+                    </div>
+                    <div class="cmd-block">
+                        <button class="cmd-copy-btn"
+                            onclick="copyCommand(this, 'curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.sh | bash')"
+                            aria-label="Copy command">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <code>curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.sh | bash</code>
+                    </div>
+                    <div class="cmd-info">
+                        <div><strong>Uninstall:</strong> <code
+                                class="path-tag">curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.sh | bash</code>
                         </div>
+                        <div><strong>Path:</strong> <code class="path-tag">~/.local/bin/gaba</code></div>
                     </div>
                 </div>
 
                 <!-- Windows PowerShell -->
-                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
-                    style="border: 1px solid var(--border); background: var(--bg-card);">
-                    <div class="flex items-start gap-5">
-                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
-                                class="fab fa-windows"></i></div>
-                        <div class="flex-1 w-full min-w-0">
-                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Windows (PowerShell)
-                            </h3>
-                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Open PowerShell as
-                                Administrator and run:</p>
-
-                            <div class="terminal-window">
-                                <div class="terminal-header">
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <span class="terminal-title">powershell</span>
-                                </div>
-                                <div class="terminal-body">
-                                    <span class="terminal-prompt">PS&gt;</span>irm
-                                    https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.ps1 | iex
-                                </div>
-                            </div>
-
-                            <div class="mt-4 space-y-2 text-xs" style="color: var(--text-muted);">
-                                <div class="flex items-start gap-2 flex-wrap">
-                                    <strong class="flex-shrink-0">Uninstall:</strong>
-                                    <code
-                                        class="path-highlight">irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.ps1 | iex</code>
-                                </div>
-                                <div class="flex items-start gap-2 flex-wrap">
-                                    <strong class="flex-shrink-0">Path:</strong>
-                                    <code class="path-highlight">%LOCALAPPDATA%\Programs\gaba\gaba.exe</code>
-                                </div>
-                            </div>
+                <div data-aos="fade-up" class="cmd-section">
+                    <div class="cmd-title">
+                        <i class="fab fa-windows" style="color: var(--text-muted);"></i>
+                        Windows (PowerShell)
+                    </div>
+                    <div class="cmd-block">
+                        <button class="cmd-copy-btn"
+                            onclick="copyCommand(this, 'irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.ps1 | iex')"
+                            aria-label="Copy command">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <code>irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.ps1 | iex</code>
+                    </div>
+                    <div class="cmd-info">
+                        <div><strong>Uninstall:</strong> <code
+                                class="path-tag">irm https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.ps1 | iex</code>
+                        </div>
+                        <div><strong>Path:</strong> <code class="path-tag">%LOCALAPPDATA%\Programs\gaba\gaba.exe</code>
                         </div>
                     </div>
                 </div>
 
                 <!-- Windows CMD -->
-                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
-                    style="border: 1px solid var(--border); background: var(--bg-card);">
-                    <div class="flex items-start gap-5">
-                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
-                                class="fas fa-terminal"></i></div>
-                        <div class="flex-1 w-full min-w-0">
-                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Windows (Command
-                                Prompt)</h3>
-                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Open Command Prompt and run:
-                            </p>
-
-                            <div class="terminal-window">
-                                <div class="terminal-header">
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <span class="terminal-title">cmd</span>
-                                </div>
-                                <div class="terminal-body">
-                                    <span class="terminal-prompt">C:\&gt;</span>curl -fsSL
-                                    https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.bat -o install.bat &&
-                                    install.bat
-                                </div>
-                            </div>
-
-                            <div class="mt-4 space-y-2 text-xs" style="color: var(--text-muted);">
-                                <div class="flex items-start gap-2 flex-wrap">
-                                    <strong class="flex-shrink-0">Uninstall:</strong>
-                                    <code
-                                        class="path-highlight">curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.bat -o uninstall.bat && uninstall.bat</code>
-                                </div>
-                            </div>
+                <div data-aos="fade-up" class="cmd-section">
+                    <div class="cmd-title">
+                        <i class="fas fa-terminal" style="color: var(--text-muted);"></i>
+                        Windows (Command Prompt)
+                    </div>
+                    <div class="cmd-block">
+                        <button class="cmd-copy-btn"
+                            onclick="copyCommand(this, 'curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.bat -o install.bat && install.bat')"
+                            aria-label="Copy command">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <code>curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/install.bat -o install.bat && install.bat</code>
+                    </div>
+                    <div class="cmd-info">
+                        <div><strong>Uninstall:</strong> <code
+                                class="path-tag">curl -fsSL https://raw.githubusercontent.com/DivanshLpu/gaba/main/uninstall.bat -o uninstall.bat && uninstall.bat</code>
                         </div>
                     </div>
                 </div>
 
                 <!-- Verify & Troubleshooting -->
-                <div data-aos="fade-up" class="step-card p-6 sm:p-8 rounded-2xl"
-                    style="border: 1px solid var(--border); background: var(--bg-card);">
-                    <div class="flex items-start gap-5">
-                        <div class="step-number" style="background: var(--accent); color: var(--accent-inverse);"><i
-                                class="fas fa-check"></i></div>
-                        <div class="flex-1 w-full min-w-0">
-                            <h3 class="text-xl font-bold mb-3" style="color: var(--text-primary);">Verify & Troubleshoot
-                            </h3>
-                            <p class="mb-3 text-sm" style="color: var(--text-secondary);">Verify installation by
-                                running:</p>
-
-                            <div class="terminal-window">
-                                <div class="terminal-header">
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <div class="terminal-dot"></div>
-                                    <span class="terminal-title">terminal</span>
-                                </div>
-                                <div class="terminal-body">
-                                    <span class="terminal-prompt">$</span>gaba version
-                                </div>
+                <div data-aos="fade-up" class="cmd-section" style="margin-top: 10px;">
+                    <div class="cmd-title">
+                        <i class="fas fa-check" style="color: var(--text-muted);"></i>
+                        Verify & Troubleshooting
+                    </div>
+                    <div class="cmd-block" style="margin-bottom: 10px;">
+                        <button class="cmd-copy-btn" onclick="copyCommand(this, 'gaba version')"
+                            aria-label="Copy command">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <code>gaba version</code>
+                    </div>
+                    <div class="sub-step">
+                        <span class="sub-step-number">L/M</span>
+                        <div class="sub-step-text">
+                            <strong>Linux/macOS:</strong> If <code class="path-tag">gaba</code> not found, add to <code
+                                class="path-tag">~/.bashrc</code> or <code class="path-tag">~/.zshrc</code>:
+                            <div class="cmd-block mt-2" style="margin-bottom: 4px;">
+                                <button class="cmd-copy-btn"
+                                    onclick="copyCommand(this, 'export PATH=&quot;$HOME/.local/bin:$PATH&quot;')"
+                                    aria-label="Copy command">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <code>export PATH="$HOME/.local/bin:$PATH"</code>
                             </div>
-
-                            <div class="mt-4 p-4 rounded-xl"
-                                style="background: var(--bg-elevated); border: 1px solid var(--border);">
-                                <h4 class="text-sm font-bold mb-2" style="color: var(--text-primary);"><i
-                                        class="fas fa-wrench mr-2"></i>Troubleshooting</h4>
-                                <ul class="text-sm space-y-3" style="color: var(--text-secondary);">
-                                    <li class="flex flex-col gap-1">
-                                        <strong>Linux/macOS:</strong> If <code class="path-highlight">gaba</code> is not
-                                        found, add this to <code class="path-highlight">~/.bashrc</code> or <code
-                                            class="path-highlight">~/.zshrc</code>:
-                                        <code class="path-highlight mt-1">export PATH="$HOME/.local/bin:$PATH"</code>
-                                        <span>then run <code class="path-highlight">source ~/.bashrc</code></span>
-                                    </li>
-                                    <li class="flex flex-col gap-1">
-                                        <strong>Windows:</strong> If <code class="path-highlight">gaba</code> is not
-                                        recognized, simply restart your terminal or open a new Command Prompt/PowerShell
-                                        window.
-                                    </li>
-                                </ul>
-                            </div>
+                            Then run: <code class="path-tag">source ~/.bashrc</code>
+                        </div>
+                    </div>
+                    <div class="sub-step">
+                        <span class="sub-step-number">Win</span>
+                        <div class="sub-step-text">
+                            <strong>Windows:</strong> If <code class="path-tag">gaba</code> not recognized, restart
+                            terminal or open new Command Prompt/PowerShell.
                         </div>
                     </div>
                 </div>
@@ -1084,8 +1196,7 @@
                     <p class="text-sm" style="color: var(--text-muted);">Full support for <code
                             class="path-highlight">if/else</code>, <code class="path-highlight">while</code>, and <code
                             class="path-highlight">for</code> loops, plus <code class="path-highlight">stop</code> and
-                        <code class="path-highlight">skip</code> controls.
-                    </p>
+                        <code class="path-highlight">skip</code> controls.</p>
                 </div>
 
                 <div data-aos="fade-up" data-aos-delay="200" class="feature-box p-6 rounded-2xl card-shine"
@@ -1107,8 +1218,7 @@
                     <h3 class="text-xl font-bold mb-2" style="color: var(--text-primary);">Lists & Maps</h3>
                     <p class="text-sm" style="color: var(--text-muted);">Built-in data structures with methods like
                         <code class="path-highlight">~push()</code>, <code class="path-highlight">~keys()</code>,
-                        indexing, and assignment.
-                    </p>
+                        indexing, and assignment.</p>
                 </div>
 
                 <div data-aos="fade-up" data-aos-delay="400" class="feature-box p-6 rounded-2xl card-shine"
@@ -1223,8 +1333,8 @@
                     <span class="font-semibold" style="color: var(--text-primary);">Divansh</span>
                 </div>
 
-                <p class="text-sm" style="color: var(--text-muted);">
-                    Gaba Language v1.3.6 © 2026 · Built with Dart · FREEEEEEEEEE
+                <p class="text-sm text-center md:text-left" style="color: var(--text-muted);">
+                    Gaba Language v1.3.6 © 2026 · Built with Dart · FREE
                 </p>
 
                 <div class="flex gap-4">
@@ -1235,7 +1345,7 @@
                         onmouseout="this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">
                         <i class="fab fa-github"></i>
                     </a>
-                    <a href="index.html" class="w-10 h-10 rounded-lg flex items-center justify-center transition-all"
+                    <a href="/" class="w-10 h-10 rounded-lg flex items-center justify-center transition-all"
                         style="border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted);"
                         onmouseover="this.style.color='var(--text-primary)'; this.style.borderColor='var(--border-hover)'"
                         onmouseout="this.style.color='var(--text-muted)'; this.style.borderColor='var(--border)'">
@@ -1246,32 +1356,22 @@
         </div>
     </footer>
 
-    <!-- AOS Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
-        // ===== BULLETPROOF SINGLE-PASS SYNTAX HIGHLIGHTER =====
-        function highlightGaba(code) {
-            let escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            const regex = /(\/\/.*)|("[^"\\]*(?:\\.[^"\\]*)*")|\b(let|say|if|else|while|for|in|fun|give|ask|stop|skip|import)\b|\b(true|false)\b|\b(\d+\.?\d*)\b|(~?[a-zA-Z_][a-zA-Z0-9_]*)(?=\s*\()|([+\-*/=<>!]+|~)/g;
-
-            const highlighted = escaped.replace(regex, (match, comment, string, keyword, boolean, number, funcName, operator) => {
-                if (comment) return `<span class="token-comment">${comment}</span>`;
-                if (string) return `<span class="token-string">${string}</span>`;
-                if (keyword) return `<span class="token-keyword">${keyword}</span>`;
-                if (boolean) return `<span class="token-boolean">${boolean}</span>`;
-                if (number) return `<span class="token-number">${number}</span>`;
-                if (funcName) {
-                    if (funcName.startsWith('~')) return `~<span class="token-function">${funcName.slice(1)}</span>`;
-                    return `<span class="token-function">${funcName}</span>`;
-                }
-                if (operator) return `<span class="token-operator">${operator}</span>`;
-                return match;
+        // ===== COMMAND COPY FUNCTION =====
+        function copyCommand(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<i class="fas fa-copy"></i>';
+                }, 1500);
             });
-
-            return highlighted.split('\n').map(line => `<span class="code-line">${line || ' '}</span>`).join('\n');
         }
 
+        // ===== GABA CODE EXAMPLE =====
         const gabaCode = `// Gaba Language v1.3.6 Example
 // Demonstrating variables, loops, functions, lists, and maps
 
@@ -1323,6 +1423,26 @@ say("You entered: " + userInput)
 
 say("Program Finished")`;
 
+        // ===== SYNTAX HIGHLIGHTER =====
+        function highlightGaba(code) {
+            let escaped = code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const regex = /(\/\/.*)|("[^"\\]*(?:\\.[^"\\]*)*")|\b(let|say|if|else|while|for|in|fun|give|ask|stop|skip|import)\b|\b(true|false)\b|\b(\d+\.?\d*)\b|(~?[a-zA-Z_][a-zA-Z0-9_]*)(?=\s*\()|([+\-*/=<>!]+|~)/g;
+            const highlighted = escaped.replace(regex, (match, comment, string, keyword, boolean, number, funcName, operator) => {
+                if (comment) return `<span class="token-comment">${comment}</span>`;
+                if (string) return `<span class="token-string">${string}</span>`;
+                if (keyword) return `<span class="token-keyword">${keyword}</span>`;
+                if (boolean) return `<span class="token-boolean">${boolean}</span>`;
+                if (number) return `<span class="token-number">${number}</span>`;
+                if (funcName) {
+                    if (funcName.startsWith('~')) return `~<span class="token-function">${funcName.slice(1)}</span>`;
+                    return `<span class="token-function">${funcName}</span>`;
+                }
+                if (operator) return `<span class="token-operator">${operator}</span>`;
+                return match;
+            });
+            return highlighted.split('\n').map(line => `<span class="code-line">${line || ' '}</span>`).join('\n');
+        }
+
         document.getElementById('codeContent').innerHTML = highlightGaba(gabaCode);
 
         function copyCode() {
@@ -1357,8 +1477,8 @@ say("Program Finished")`;
         const themeDropdownMobile = document.getElementById('themeDropdownMobile');
 
         function toggleDropdown(dropdown, otherDropdown) { otherDropdown.classList.remove('active'); dropdown.classList.toggle('active'); }
-        themeToggleBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(themeDropdown, themeDropdownMobile); });
-        themeToggleBtnMobile.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(themeDropdownMobile, themeDropdown); });
+        if (themeToggleBtn) themeToggleBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(themeDropdown, themeDropdownMobile); });
+        if (themeToggleBtnMobile) themeToggleBtnMobile.addEventListener('click', (e) => { e.stopPropagation(); toggleDropdown(themeDropdownMobile, themeDropdown); });
 
         document.querySelectorAll('.theme-option').forEach(option => {
             option.addEventListener('click', (e) => {
@@ -1367,9 +1487,12 @@ say("Program Finished")`;
             });
         });
 
-        document.addEventListener('click', () => { themeDropdown.classList.remove('active'); themeDropdownMobile.classList.remove('active'); });
-        themeDropdown.addEventListener('click', (e) => e.stopPropagation());
-        themeDropdownMobile.addEventListener('click', (e) => e.stopPropagation());
+        document.addEventListener('click', () => {
+            if (themeDropdown) themeDropdown.classList.remove('active');
+            if (themeDropdownMobile) themeDropdownMobile.classList.remove('active');
+        });
+        if (themeDropdown) themeDropdown.addEventListener('click', (e) => e.stopPropagation());
+        if (themeDropdownMobile) themeDropdownMobile.addEventListener('click', (e) => e.stopPropagation());
 
         // ===== MOBILE MENU =====
         const menuBtn = document.getElementById('menuBtn');
@@ -1377,14 +1500,20 @@ say("Program Finished")`;
         const mobileMenu = document.getElementById('mobileMenu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        menuBtn.addEventListener('click', () => {
+        if (menuBtn) menuBtn.addEventListener('click', () => {
             mobileMenu.classList.add('active');
             document.body.style.overflow = 'hidden';
-            // Close theme dropdown when menu opens
-            themeDropdownMobile.classList.remove('active');
         });
-        closeMenu.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = ''; });
-        mobileLinks.forEach(link => { link.addEventListener('click', () => { mobileMenu.classList.remove('active'); document.body.style.overflow = ''; }); });
+        if (closeMenu) closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
 
         // ===== AOS & SCROLL =====
         AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 50 });
@@ -1401,7 +1530,7 @@ say("Program Finished")`;
                 navbar.style.backdropFilter = 'blur(20px)';
                 navbar.style.borderBottom = '1px solid var(--border)';
             } else {
-                navbar.style.background = 'var(--bg-primary)'; // Keep solid background even at top for better visibility
+                navbar.style.background = 'transparent';
                 navbar.style.backdropFilter = 'none';
                 navbar.style.borderBottom = 'none';
             }
