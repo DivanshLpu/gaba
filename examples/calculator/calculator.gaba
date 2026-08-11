@@ -1,0 +1,46 @@
+// This is a calculator code build by divansh gaba in language build by divansh gaba - gaba language
+
+import "math"
+import "function"
+
+while true {
+    say(" ============================ ")
+    function.printingsMainWindow()
+    let val1 = ask("Enter your VALUE: ")
+    let val01 = int(val1)
+
+    if val01 == 1 {
+        set value10 = int(ask("VALUE 1 : "))
+        set value20 = int(ask("VALUE 2 : "))
+        say("Your TOTAL is : ")
+        say(math.add(value10,value20))
+    }
+
+    if val01 == 2 {
+
+        set value10 = int(ask("VALUE 1 : "))
+        set value20 = int(ask("VALUE 2 : "))
+        say("Your ANSWER is : ")
+        say(math.sub(value10,value20))
+
+    }
+
+    if val01 == 3 {
+        set value10 = int(ask("VALUE 1 : "))
+        set value20 = int(ask("VALUE 2 : "))
+        say("Your ANSWER is : ")
+        say(math.mult(value10,value20))
+    }
+
+    if val01 == 4 {
+        set value10 = int(ask("VALUE 1 : "))
+        set value20 = int(ask("VALUE 2 : "))
+        say("Your ANSWER is : ")
+        say(math.divi(value10,value20))
+    }
+    
+    if val01 == 5 {
+        say("thanks for using my language based calculator")
+        stop
+    }
+}
