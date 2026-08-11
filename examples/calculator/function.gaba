@@ -1,0 +1,8 @@
+fun printingsMainWindow(){
+    say("         MAIN WINDOWS        ")
+    say("     1 . ADITIONS            ")
+    say("     2 . SUBSTRACTION          ")
+    say("     3 . MULTIPLICATIONS        ")
+    say("     4 . DIVISIONS            ")
+    say("     5 . EXIT            ")
+}
