@@ -1,0 +1,20 @@
+
+fun add(a, b) {
+
+    give a + b
+
+}
+
+fun sub(v,b){
+
+    give v - b
+}
+
+fun mult(v,b){
+    give v*b
+}
+
+fun divi(v,b){
+    give v/b
+}
+
