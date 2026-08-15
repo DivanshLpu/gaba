@@ -4,6 +4,9 @@ Gaba can be installed on **Linux**, **macOS**, and **Windows** using a single co
 
 ---
 
+[![Download Gaba](https://img.shields.io/badge/Download-Gaba%20Language-blue?style=for-the-badge)](https://gaba-language.sourceforge.io/)
+
+---
 # Linux
 
 Install the latest version:
